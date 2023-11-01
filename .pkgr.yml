@@ -3,6 +3,21 @@ description: Zammad is a web based open source helpdesk/customer support system
 homepage: https://zammad.org
 notifications: false
 targets:
+  centos-9:
+    dependencies:
+      - curl
+      - elasticsearch
+      - nginx
+      - postgresql-server
+      - which
+      - epel-release
+      - imlib2
+      - shared-mime-info
+      - redis
+    build_dependencies:
+      - https://download.fedoraproject.org/pub/epel/9/Everything/x86_64/Packages/i/imlib2-1.7.4-1.el9.x86_64.rpm
+      - https://download.fedoraproject.org/pub/epel/9/Everything/x86_64/Packages/i/imlib2-devel-1.7.4-1.el9.x86_64.rpm
+      - shared-mime-info
   centos-8:
     dependencies:
       - curl
