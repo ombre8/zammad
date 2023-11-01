@@ -5,7 +5,7 @@ notifications: false
 targets:
   centos-9:
     dependencies:
-      - curl-minimal
+      #      - curl-minimal
       - elasticsearch
       - nginx
       - postgresql-server
