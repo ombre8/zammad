@@ -13,6 +13,8 @@ class User < ApplicationModel
   include HasObjectManagerAttributes
   include HasTaskbars
   include HasTwoFactor
+  include CanSelector
+  include CanPerformChanges
   include User::Assets
   include User::Avatar
   include User::Search
@@ -52,6 +54,8 @@ class User < ApplicationModel
 
   validate :ensure_identifier, :ensure_email
   validate :ensure_uniq_email, unless: :skip_ensure_uniq_email
+
+  available_perform_change_actions :data_privacy_deletion_task, :attribute_updates
 
   # workflow checks should run after before_create and before_update callbacks
   # the transaction dispatcher must be run after the workflow checks!
@@ -880,8 +884,8 @@ try to find correct name
   end
 
   def check_name
-    firstname&.strip!
-    lastname&.strip!
+    self.firstname = sanitize_name(firstname)
+    self.lastname  = sanitize_name(lastname)
 
     return if firstname.present? && lastname.present?
 
@@ -894,6 +898,25 @@ try to find correct name
 
     check_name_apply(:firstname, local_firstname)
     check_name_apply(:lastname, local_lastname)
+  end
+
+  def sanitize_name(value)
+    result = value&.strip
+
+    return result if result.blank?
+
+    result.split(%r{\s}).map { |v| strip_uri(v) }.join("\s")
+  end
+
+  def strip_uri(value)
+    uri = URI.parse(value)
+
+    return value if !uri || uri.scheme.blank? || uri.hostname.blank?
+
+    # Strip the scheme from the URI.
+    uri.hostname + uri.path
+  rescue
+    value
   end
 
   def check_name_apply(identifier, input)

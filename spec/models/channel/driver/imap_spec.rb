@@ -110,7 +110,7 @@ RSpec.describe Channel::Driver::Imap, integration: true, required_envs: %w[MAIL_
       end
     end
 
-    let(:imap) { Net::IMAP.new(server_address, 993, true, nil, false).tap { |imap| imap.login(server_login, server_password) } }
+    let(:imap) { Net::IMAP.new(server_address, port: 993, ssl: { verify_mode: OpenSSL::SSL::VERIFY_NONE }).tap { |imap| imap.login(server_login, server_password) } }
 
     let(:purge_inbox) do
       imap.select('inbox')
@@ -359,7 +359,7 @@ RSpec.describe Channel::Driver::Imap, integration: true, required_envs: %w[MAIL_
       end
     end
 
-    describe 'iCloud emails are not fetchable via IMAP #4589', required_envs: %w[ICLOUD_USER ICLOUD_PASS] do
+    describe 'iCloud emails are not fetchable via IMAP #4589', required_envs: %w[ICLOUD_USER ICLOUD_PASS], retry: 5, retry_wait: 30.seconds do
       let(:server_address) { 'imap.mail.me.com' }
       let(:server_login)    { ENV['ICLOUD_USER'] }
       let(:server_password) { ENV['ICLOUD_PASS'] }

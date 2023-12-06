@@ -115,7 +115,6 @@ class App.ControllerTable extends App.Controller
   pagerItemsPerPage: 150
   pagerShownPage: 0
 
-  destroy: false
   customActions: []
 
   columnsLength: undefined
@@ -148,8 +147,8 @@ class App.ControllerTable extends App.Controller
     @attributesListRaw ||= @attribute_list || @model.configure_attributes || {}
     @attributesList = App.Model.attributesGet(false, @attributesListRaw)
 
-    @destroy = @model.configure_delete
-    @clone = @model.configure_clone
+    @destroy = if _.isNull(@destroy) or _.isUndefined(@destroy) then @model.configure_delete else @destroy
+    @clone = if _.isNull(@clone) or _.isUndefined(@clone) then @model.configure_clone else @clone
     @setAsDefault = @model.configure_set_as_default
     @unsetDefault = @model.configure_unset_default
 
@@ -817,6 +816,56 @@ class App.ControllerTable extends App.Controller
               if !item
                 console.log('Got empty object in order by with header _.sortBy')
                 return ''
+
+              if _.includes(['multiselect', 'select'], header.tag)
+                rawValue = item[header.name]
+
+                if !_.isArray(rawValue)
+                  rawValue = [rawValue]
+
+                sortValue = if _.isArray(header.options)
+                              rawValue
+                                .map (elem) -> _.findIndex(header.options, (option) -> option.value == elem)
+                                .sort()
+                            else if _.isObject(header.options)
+                              rawValue
+                                .map (elem) ->
+                                  displayValue = header.options[elem]
+
+                                  if displayValue && header.translate
+                                    displayValue = App.i18n.translateInline(displayValue)
+
+                                  value = displayValue || elem
+
+                                  if typeof value is 'string'
+                                    value = value.toLocaleLowerCase()
+
+                                  value
+                                .sort()
+                            else if header.relation
+                              rawValue
+                                .map (elem) ->
+                                  relatedItem = App[header.relation].findNative(item[header.name])
+
+                                  return '' if !relatedItem
+
+                                  displayValue = relatedItem.displayName?() || relatedItem.name || ''
+
+                                  if displayValue && header.translate
+                                    displayValue = App.i18n.translateInline(displayValue)
+
+                                  value = displayValue || elem
+
+                                  if typeof value is 'string'
+                                    value = value.toLocaleLowerCase()
+
+                                  value
+                                .sort()
+
+                            else
+                              rawValue
+
+                return sortValue
 
               # if we need to sort translated col.
               if header.translate

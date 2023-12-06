@@ -2,7 +2,7 @@
 
 require 'vcr'
 
-VCR_IGNORE_MATCHING_HOSTS = %w[build elasticsearch selenium ci-service- zammad.org zammad.com znuny.com google.com login.microsoftonline.com 2btx5w.webhook.office.com github.com badssl.com].freeze
+VCR_IGNORE_MATCHING_HOSTS = %w[build elasticsearch selenium ci-service- zammad.org zammad.com znuny.com google.com login.microsoftonline.com github.com badssl.com].freeze
 VCR_IGNORE_MATCHING_REGEXPS = [
   %r{^192\.168\.\d+\.\d+$},   # typical home network address
   %r{^172\.17\.0\.\d+$},      # docker
@@ -79,6 +79,9 @@ end
 
 RSpec.configure do |config|
   config.around(:each, use_vcr: true) do |example|
+
+    # S3 does not play well with time freezing (Aws::S3::Errors::RequestTimeTooSkewed).
+    Setting.set('storage_provider', 'DB') if Setting.get('storage_provider') == 'S3'
 
     # Perform live integration tests without using VCR cassettes if CI_IGNORE_CASSETTES is set.
     if example.metadata[:integration] && %w[1 true].include?(ENV['CI_IGNORE_CASSETTES'])

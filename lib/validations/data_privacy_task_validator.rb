@@ -4,77 +4,64 @@ class Validations::DataPrivacyTaskValidator < ActiveModel::Validator
 
   attr_reader :record
 
+  delegate :deletable, to: :record
+
   def validate(record)
     @record = record
 
-    check_for_user
-    check_for_system_user
-    check_for_current_user
-    check_for_last_admin
+    check_for_deletable_type
     check_for_existing_task
+    check_for_user
   end
 
   private
 
-  def check_for_user
+  def check_for_deletable_type
     return if !record.deletable_type_changed?
-    return if deletable_is_user?
+    return if [User, Ticket].any? { deletable.is_a?(_1) }
 
-    invalid_because(:deletable, __('is not a User'))
+    record.errors.add(:base, __('Data privacy task allows to delete a user or a ticket only.'))
+  end
+
+  def check_for_user
+    return if !record.deletable_id_changed?
+    return if !deletable.is_a?(User)
+
+    check_for_system_user
+    check_for_current_user
+    check_for_last_admin
   end
 
   def check_for_system_user
-    return if !record.deletable_id_changed?
-    return if !deletable_is_user?
     return if deletable.id != 1
 
-    invalid_because(:deletable, __('is undeletable system User with ID 1'))
+    record.errors.add(:base, __('It is not possible to delete the system user.'))
   end
 
   def check_for_current_user
-    return if !record.deletable_id_changed?
-    return if !deletable_is_user?
     return if deletable.id != UserInfo.current_user_id
 
-    invalid_because(:deletable, __('is your current account'))
+    record.errors.add(:base, __('It is not possible to delete your current account.'))
   end
 
   def check_for_last_admin
-    return if !record.deletable_id_changed?
-    return if !deletable_is_user?
     return if !last_admin?
 
-    invalid_because(:deletable, __('is last account with admin permissions'))
+    record.errors.add(:base, __('It is not possible to delete the last account with admin permissions.'))
   end
 
   def check_for_existing_task
     return if !record.deletable_id_changed?
-    return if !deletable_is_user?
     return if !tasks_exists?
 
-    invalid_because(:deletable, __('has an existing DataPrivacyTask queued'))
-  end
-
-  def deletable_is_user?
-    deletable.is_a?(User)
-  end
-
-  def deletable
-    record.deletable
-  end
-
-  def invalid_because(attribute, message, **options)
-    record.errors.add attribute, message, **options
+    record.errors.add(:base, __('Selected object is already queued for deletion.'))
   end
 
   def tasks_exists?
-    DataPrivacyTask.where(
-      deletable: deletable
-    ).where.not(
-      id:    record.id,
-    ).where.not(
-      state: 'failed'
-    ).exists?
+    DataPrivacyTask
+      .where.not(id:    record.id)
+      .where.not(state: 'failed')
+      .exists? deletable: deletable
   end
 
   def last_admin?

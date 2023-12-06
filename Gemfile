@@ -190,19 +190,22 @@ gem 'PoParser', require: false
 # Simple storage
 gem 'aws-sdk-s3', require: false
 
+# Debugging and profiling
+gem 'byebug'
+gem 'pry-byebug'
+gem 'pry-doc'
+gem 'pry-rails'
+gem 'pry-remote'
+gem 'pry-rescue'
+gem 'pry-stack_explorer'
+gem 'pry-theme'
+
 # Gems used only for develop/test and not required
 # in production environments by default.
 group :development, :test do
 
   # watch file changes
   gem 'listen'
-
-  # debugging
-  gem 'byebug'
-  gem 'pry-rails'
-  gem 'pry-remote'
-  gem 'pry-rescue'
-  gem 'pry-stack_explorer'
 
   # test frameworks
   gem 'minitest-profile', require: false
@@ -247,9 +250,6 @@ group :development, :test do
   # image comparison in tests
   gem 'chunky_png'
 
-  # refresh ENVs in CI environment
-  gem 'dotenv', require: false
-
   # Slack helper for testing
   gem 'slack-ruby-client', require: false
 
@@ -257,8 +257,7 @@ group :development, :test do
   gem 'localhost'
 
   # Keycloak admin tool for setting up SAML auth tests
-  gem 'httparty'
-  gem 'keycloak-admin', git: 'https://github.com/tschaefer/ruby-keycloak-admin/', branch: 'develop', require: false
+  gem 'keycloak-admin', git: 'https://github.com/tschaefer/ruby-keycloak-admin/', branch: 'main', require: false
 end
 
 # To permanently extend Zammad with additional gems, you can specify them in Gemfile.local.

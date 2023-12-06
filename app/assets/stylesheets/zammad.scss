@@ -2,6 +2,7 @@ $high-priority-color: hsl(360, 71%, 60%);
 $low-priority-color: hsl(200, 68%, 73%);
 $minWidth: 1024px;
 $sidebarWidth: 280px;
+$desktopSidebarWidth: 360px;
 $navigationWidth: 260px;
 $mobileNavigationWidth: 50px;
 $mobileNavigationWidthOpen: 220px;
@@ -488,6 +489,10 @@ ul {
 
 .zIndex-11 {
   z-index: 1100;
+}
+
+.zIndex-12 {
+  z-index: 1200;
 }
 
 .clickCatcher {
@@ -1623,7 +1628,7 @@ td.align-right {
 .table tr.is-grayed-out {
   color: var(--text-muted);
 
-  .icon,
+  .icon:not(.u-highlight),
   .btn span {
     opacity: 0.33;
   }
@@ -1651,6 +1656,10 @@ td .icon-trash {
 
 td .prefix-icon > .icon {
   vertical-align: top;
+}
+
+td .icon-cog {
+  width: 16px;
 }
 
 .table-checkbox,
@@ -4262,6 +4271,17 @@ footer {
     min-width: $minWidth - $sidebarWidth;
   }
 
+  @include desktop {
+    @include bidi-style(
+      left,
+      $desktopSidebarWidth + $navigationWidth,
+      right,
+      0
+    );
+
+    min-width: $minWidth - $desktopSidebarWidth;
+  }
+
   &.no-sidebar {
     @include bidi-style(left, $navigationWidth, right, 0);
 
@@ -5894,7 +5914,7 @@ a.list-group-item.active > .badge,
 }
 
 .popover {
-  @extend .zIndex-7;
+  @extend .zIndex-12;
 
   position: absolute;
   font-family: inherit;
@@ -7859,6 +7879,10 @@ a.list-group-item.active > .badge,
   transition: margin-right 500ms;
 
   @include rtl(transition, margin-left 500ms);
+
+  @include desktop {
+    @include bidi-style(margin-right, $desktopSidebarWidth, margin-left, 0);
+  }
 }
 
 .tabsSidebar-sidebarSpacer.is-closed {
@@ -7880,6 +7904,10 @@ a.list-group-item.active > .badge,
   border-left: 1px solid var(--border);
   padding: 0;
   margin-bottom: 1px;
+
+  @include desktop {
+    width: $desktopSidebarWidth;
+  }
 }
 
 .tabsSidebar .sidebar > hr {
@@ -7976,6 +8004,12 @@ a.list-group-item.active > .badge,
   transform: translateX($sidebarWidth);
 
   @include rtl(transform, translateX(-$sidebarWidth));
+
+  @include desktop {
+    transform: translateX($desktopSidebarWidth);
+
+    @include rtl(transform, translateX(-$desktopSidebarWidth));
+  }
 }
 
 .tabsSidebar-tabs {
@@ -10649,6 +10683,19 @@ label + .wizard-buttonList {
   &--with-switch {
     margin-bottom: 10px;
   }
+
+  .alert {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .alert + .horizontal-filter {
+    border-radius: 4px 4px 0 0;
+  }
+
+  .alert + .horizontal-filter:last-child {
+    border-radius: 4px;
+  }
 }
 
 .horizontal-filter {
@@ -11514,6 +11561,15 @@ output {
       cursor: unset;
     }
 
+    &.is-selected {
+      @include bidi-style(
+        border-left,
+        5px solid var(--highlight),
+        border-right,
+        5px solid var(--highlight)
+      );
+    }
+
     &.js-enter:hover,
     &.js-enter.is-active {
       background: none;
@@ -11547,15 +11603,7 @@ output {
       padding: 0;
 
       span.searchableSelect-option-text {
-        @include ltr(padding, 11px 45px 11px 15px);
-        @include rtl(padding, 11px 15px 11px 45px);
-      }
-
-      span.searchableSelect-option-checkmark {
-        @include ltr(margin-left, -31px);
-        @include ltr(padding-right, 15px);
-        @include rtl(margin-right, -31px);
-        @include rtl(padding-left, 15px);
+        padding: 11px 15px;
       }
 
       span.searchableSelect-option-arrow {
@@ -11573,20 +11621,10 @@ output {
     }
 
     span.searchableSelect-option-text {
-      @include ltr(padding-right, 45px);
-      @include rtl(padding-left, 45px);
+      letter-spacing: -0.02rem;
 
       &:hover {
         background: var(--highlight);
-      }
-    }
-
-    span.searchableSelect-option-checkmark {
-      @include ltr(margin-left, -16px);
-      @include rtl(margin-right, 16px);
-
-      .icon-checkmark {
-        fill: var(--text-inverted);
       }
     }
   }
@@ -12760,7 +12798,6 @@ output {
 
   table {
     table-layout: auto;
-    display: block;
     width: 100%;
     overflow: auto;
     -webkit-overflow-scrolling: touch;

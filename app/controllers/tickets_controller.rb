@@ -7,7 +7,7 @@ class TicketsController < ApplicationController
   include TicketStats
   include CanPaginate
 
-  prepend_before_action -> { authorize! }, only: %i[create selector import_example import_start ticket_customer ticket_history ticket_related ticket_recent ticket_merge ticket_split]
+  prepend_before_action -> { authorize! }, only: %i[create import_example import_start ticket_customer ticket_history ticket_related ticket_recent ticket_merge ticket_split]
   prepend_before_action :authentication_check
 
   # GET /api/v1/tickets
@@ -174,11 +174,13 @@ class TicketsController < ApplicationController
         end
       end
 
-      # create mentions if given
+      # This mentions handling is used by custom API calls only
+      # Mentions created in UI are handled by Ticket::Article#check_mentions
       if params[:mentions].present?
         authorize!(ticket, :create_mentions?)
+
         Array(params[:mentions]).each do |user_id|
-          Mention.where(mentionable: ticket, user_id: user_id).first_or_create(mentionable: ticket, user_id: user_id)
+          Mention.subscribe! ticket, User.find(user_id)
         end
       end
 
@@ -350,7 +352,7 @@ class TicketsController < ApplicationController
     # if we do not have open related tickets, search for any tickets
     tickets ||= TicketPolicy::ReadScope.new(current_user).resolve
                                        .where(customer_id: ticket.customer_id)
-                                       .where.not(state_id: Ticket::State.by_category(:merged).pluck(:id))
+                                       .where.not(state_id: Ticket::State.by_category_ids(:merged))
                                        .where.not(id: ticket.id)
                                        .reorder(created_at: :desc)
                                        .limit(6)
@@ -505,25 +507,6 @@ class TicketsController < ApplicationController
     }
   end
 
-  # GET /api/v1/tickets/selector
-  def selector
-    ticket_count, tickets = Ticket.selectors(params[:condition], limit: 6, execution_time: true)
-
-    assets = {}
-    ticket_ids = []
-    tickets&.each do |ticket|
-      ticket_ids.push ticket.id
-      assets = ticket.assets(assets)
-    end
-
-    # return result
-    render json: {
-      ticket_ids:   ticket_ids,
-      ticket_count: ticket_count || 0,
-      assets:       assets,
-    }
-  end
-
   # GET /api/v1/ticket_stats
   def stats
 
@@ -546,7 +529,7 @@ class TicketsController < ApplicationController
         closed_ids: {
           'ticket.state_id'    => {
             operator: 'is',
-            value:    Ticket::State.by_category(:closed).pluck(:id),
+            value:    Ticket::State.by_category_ids(:closed),
           },
           'ticket.customer_id' => {
             operator: 'is',
@@ -556,7 +539,7 @@ class TicketsController < ApplicationController
         open_ids:   {
           'ticket.state_id'    => {
             operator: 'is',
-            value:    Ticket::State.by_category(:open).pluck(:id),
+            value:    Ticket::State.by_category_ids(:open),
           },
           'ticket.customer_id' => {
             operator: 'is',
@@ -591,7 +574,7 @@ class TicketsController < ApplicationController
         closed_ids: {
           'ticket.state_id'        => {
             operator: 'is',
-            value:    Ticket::State.by_category(:closed).pluck(:id),
+            value:    Ticket::State.by_category_ids(:closed),
           },
           'ticket.organization_id' => {
             operator: 'is',
@@ -601,7 +584,7 @@ class TicketsController < ApplicationController
         open_ids:   {
           'ticket.state_id'        => {
             operator: 'is',
-            value:    Ticket::State.by_category(:open).pluck(:id),
+            value:    Ticket::State.by_category_ids(:open),
           },
           'ticket.organization_id' => {
             operator: 'is',

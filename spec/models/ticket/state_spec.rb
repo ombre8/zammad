@@ -14,9 +14,9 @@ RSpec.describe Ticket::State, type: :model do
 
   describe 'Default state' do
     describe 'of whole table:' do
-      it 'has seven records' do
+      it 'has default records' do
         expect(described_class.pluck(:name))
-          .to contain_exactly('closed', 'merged', 'new', 'open', 'pending close', 'pending reminder', 'removed')
+          .to contain_exactly('closed', 'merged', 'new', 'open', 'pending close', 'pending reminder')
       end
     end
 
@@ -194,6 +194,64 @@ RSpec.describe Ticket::State, type: :model do
             end
           end
         end
+      end
+    end
+  end
+
+  describe 'Callbacks' do
+    let(:attr) { ObjectManager::Attribute.get(object: 'Ticket', name: 'state_id') }
+
+    before { Setting.set('system_init_done', true) }
+
+    it 'updates state_id attribute when a new state is added' do
+      new_state = create(:ticket_state, state_type: Ticket::StateType.lookup(name: 'open'))
+
+      expect(attr.screens)
+        .to include(
+          'create_middle' => include(
+            'ticket.agent'    => include('filter' => include(new_state.id)),
+            'ticket.customer' => include('filter' => not_include(new_state.id))
+          ),
+          'edit'          => include(
+            'ticket.agent'    => include('filter' => include(new_state.id)),
+            'ticket.customer' => include('filter' => include(new_state.id))
+          )
+        )
+    end
+
+    context 'with an existing state' do
+      let(:state) { create(:ticket_state, state_type: Ticket::StateType.lookup(name: 'new')) }
+
+      it 'updates state_id attribute when a state is modified' do
+        state.update! state_type: Ticket::StateType.lookup(name: 'open')
+
+        expect(attr.screens)
+          .to include(
+            'create_middle' => include(
+              'ticket.agent'    => include('filter' => include(state.id)),
+              'ticket.customer' => include('filter' => not_include(state.id))
+            ),
+            'edit'          => include(
+              'ticket.agent'    => include('filter' => include(state.id)),
+              'ticket.customer' => include('filter' => include(state.id))
+            )
+          )
+      end
+
+      it 'updates state_id attribute when a state is destroyed' do
+        state.destroy!
+
+        expect(attr.screens)
+          .to include(
+            'create_middle' => include(
+              'ticket.agent'    => include('filter' => not_include(state.id)),
+              'ticket.customer' => include('filter' => not_include(state.id))
+            ),
+            'edit'          => include(
+              'ticket.agent'    => include('filter' => not_include(state.id)),
+              'ticket.customer' => include('filter' => not_include(state.id))
+            )
+          )
       end
     end
   end

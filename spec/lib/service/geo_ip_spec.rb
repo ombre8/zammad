@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Service::GeoIp, integration: true do
+RSpec.describe Service::GeoIp, integration: true, retry: 5, retry_wait: 30.seconds do
   describe '#location' do
     describe 'testing some locations' do
       subject(:lookup_result) { described_class.location(ip_address) }
@@ -31,11 +31,11 @@ RSpec.describe Service::GeoIp, integration: true do
           let(:expected_result) do
             {
               'country_name'   => 'Switzerland',
-              'city_name'      => 'Effretikon',
+              'city_name'      => 'Amriswil',
               'country_code'   => 'CH',
               'continent_code' => 'EU',
-              'latitude'       => 47.4255,
-              'longitude'      => 8.6909,
+              'latitude'       => 47.5465,
+              'longitude'      => 9.2901,
             }
           end
 
@@ -79,11 +79,11 @@ RSpec.describe Service::GeoIp, integration: true do
           let(:expected_result) do
             {
               'country_name'   => 'United States',
-              'city_name'      => 'Berkeley',
+              'city_name'      => 'Richmond',
               'country_code'   => 'US',
               'continent_code' => 'NA',
-              'latitude'       => 37.8736,
-              'longitude'      => -122.257,
+              'latitude'       => 37.9387,
+              'longitude'      => -122.3661,
             }
           end
 

@@ -16,7 +16,7 @@ module Sequencer::Unit::Import::Kayako::Requester
       end
 
       handle_error response, iteration
-    rescue Net::HTTPClientError => e
+    rescue e
       handle_exception e, iteration
     end
 
