@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { renderComponent } from '#tests/support/components/index.ts'
 import CommonAvatar from '../CommonAvatar.vue'
@@ -59,13 +59,13 @@ describe('CommonAvatar.vue', () => {
 
   it('renders an icon, if provided', () => {
     const view = renderComponent(CommonAvatar, {
-      props: { icon: 'mobile-facebook', initials: 'VL' },
+      props: { icon: 'facebook', initials: 'VL' },
     })
 
     const avatar = view.getByTestId('common-avatar')
 
     expect(avatar).not.toHaveTextContent('VL')
-    expect(view.getByIconName('mobile-facebook')).toBeInTheDocument()
+    expect(view.getByIconName('facebook')).toBeInTheDocument()
   })
 
   it('renders different sizes', async () => {
@@ -92,8 +92,8 @@ describe('CommonAvatar.vue', () => {
 
   it('renders vip icon', async () => {
     const view = renderComponent(CommonAvatar)
-    expect(view.queryByIconName('mobile-crown')).not.toBeInTheDocument()
-    await view.rerender({ vipIcon: 'mobile-crown' })
-    expect(view.getByIconName('mobile-crown')).toBeInTheDocument()
+    expect(view.queryByIconName('crown')).not.toBeInTheDocument()
+    await view.rerender({ vipIcon: 'crown' })
+    expect(view.getByIconName('crown')).toBeInTheDocument()
   })
 })

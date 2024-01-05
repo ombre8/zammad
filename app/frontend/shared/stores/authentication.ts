@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
@@ -74,6 +74,20 @@ export const useAuthenticationStore = defineStore(
       }
     }
 
+    const setAuthenticatedSessionId = async (newSessionId: string | null) => {
+      if (!newSessionId) return false
+
+      const session = useSessionStore()
+      session.id = newSessionId
+      authenticated.value = true
+
+      await refreshAfterAuthentication()
+
+      session.initialized = true
+
+      return true
+    }
+
     const login = async ({
       login,
       password,
@@ -117,17 +131,7 @@ export const useAuthenticationStore = defineStore(
         return Promise.reject(result?.login?.errors)
       }
 
-      const newSessionId = result.login?.session?.id || null
-
-      if (newSessionId) {
-        const session = useSessionStore()
-        session.id = newSessionId
-        authenticated.value = true
-
-        await refreshAfterAuthentication()
-
-        session.initialized = true
-      }
+      await setAuthenticatedSessionId(result.login?.session?.id || null)
 
       return {
         twoFactor: result.login?.twoFactorRequired,
@@ -142,6 +146,7 @@ export const useAuthenticationStore = defineStore(
       logout,
       login,
       refreshAfterAuthentication,
+      setAuthenticatedSessionId,
     }
   },
   {

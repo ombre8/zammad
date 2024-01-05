@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { renderComponent } from '#tests/support/components/index.ts'
 import { getByIconName } from '#tests/support/components/iconQueries.ts'
@@ -21,7 +21,7 @@ describe('buttons group', () => {
       {
         label: 'with-icon',
         onAction,
-        icon: 'mobile-home',
+        icon: 'home',
         disabled: true,
         value: 'icon',
       },
@@ -50,7 +50,7 @@ describe('buttons group', () => {
     const iconButton = view.getByRole('button', { name: 'with-icon' })
 
     expect(iconButton).toBeDisabled()
-    expect(getByIconName(iconButton, 'mobile-home')).toBeInTheDocument()
+    expect(getByIconName(iconButton, 'home')).toBeInTheDocument()
   })
 
   it("doesn't call action, if disabled", async () => {

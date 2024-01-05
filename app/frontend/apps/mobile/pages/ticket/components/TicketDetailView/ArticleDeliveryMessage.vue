@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import { ref } from 'vue'
@@ -27,7 +27,7 @@ useArticleSeen(articleElement, emit)
       <div
         class="absolute flex h-7 w-7 -translate-y-7 items-center justify-center rounded-full bg-yellow text-black"
       >
-        <CommonIcon name="mobile-warning" size="small" />
+        <CommonIcon name="warning" size="small" />
       </div>
       <div>{{ $t('Delivery failed:') }} "{{ content }}"</div>
     </div>

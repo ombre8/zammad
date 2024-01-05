@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import { computed } from 'vue'
@@ -14,9 +14,7 @@ export interface Props {
 const props = defineProps<Props>()
 
 const icon = computed(() => {
-  return props.entity.active
-    ? 'mobile-organization'
-    : 'mobile-inactive-organization'
+  return props.entity.active ? 'organization' : 'inactive-organization'
 })
 </script>
 
@@ -26,6 +24,6 @@ const icon = computed(() => {
     :size="size"
     :icon="icon"
     :aria-label="`Avatar (${entity.name})`"
-    :vip-icon="entity.vip ? 'mobile-crown-silver' : undefined"
+    :vip-icon="entity.vip ? 'vip-organization' : undefined"
   />
 </template>

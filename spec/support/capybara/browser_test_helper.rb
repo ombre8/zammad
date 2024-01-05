@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 module BrowserTestHelper
 
@@ -67,8 +67,8 @@ module BrowserTestHelper
   #
   #  click(:href, '#settings/branding')
   #
-  def click(*args)
-    find(*args).click
+  def click(...)
+    find(...).click
   end
 
   # Finds svg icon in Mobile View
@@ -91,8 +91,8 @@ module BrowserTestHelper
   # @example
   #  wait(5, interval: 0.5).until { ... }
   #
-  def wait(seconds = Capybara.default_max_wait_time, **kargs)
-    wait_args   = Hash(kargs).merge(timeout: seconds)
+  def wait(seconds = Capybara.default_max_wait_time, **kwargs)
+    wait_args   = Hash(kwargs).merge(timeout: seconds)
     wait_handle = Selenium::WebDriver::Wait.new(wait_args)
     Waiter.new(wait_handle)
   end
@@ -107,7 +107,7 @@ module BrowserTestHelper
   def await_empty_ajax_queue
 
     # Waiting not supported/required by mobile app.
-    return if self.class.metadata[:app] == :mobile # self.class needed to get metadata from within an `it` block.
+    return if %i[desktop_view mobile].include?(self.class.metadata[:app]) # self.class needed to get metadata from within an `it` block.
 
     # page.evaluate_script silently discards any present alerts, which is not desired.
     begin

@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 const path = require('path')
 const fs = require('fs')
@@ -36,7 +36,7 @@ module.exports = {
     '@vue/typescript/recommended',
     'prettier',
     'plugin:sonarjs/recommended',
-    'plugin:security/recommended',
+    'plugin:security/recommended-legacy',
   ],
   rules: {
     'zammad/zammad-copyright': 'error',
@@ -46,6 +46,8 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'consistent-return': 'off', // allow implicit return
+
+    'class-methods-use-this': 'off',
 
     'prefer-destructuring': [
       'error',
@@ -93,6 +95,14 @@ module.exports = {
           {
             target: './app/frontend/shared',
             from: './app/frontend/apps',
+          },
+          {
+            target: './app/frontend/apps/desktop',
+            from: './app/frontend/apps/mobile',
+          },
+          {
+            target: './app/frontend/apps/mobile',
+            from: './app/frontend/apps/desktop',
           },
           // restrict imports between different pages folder
           ...mobilePagesFolder.map((page) => {
@@ -182,10 +192,7 @@ module.exports = {
         'app/frontend/tests/**',
         'app/frontend/**/__tests__/**',
         'app/frontend/**/*.spec.*',
-        'app/frontend/stories/**',
         'app/frontend/cypress/**',
-        'app/frontend/**/*.stories.ts',
-        'app/frontend/**/*.story.vue',
         '.eslint-plugin-zammad/**',
         '.eslintrc.js',
       ],

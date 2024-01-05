@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 require 'rails_helper'
 require 'models/application_model_examples'
@@ -349,9 +349,9 @@ RSpec.describe User, type: :model do
           let(:ids_executed) { [] }
 
           before do
-            allow_any_instance_of(described_class).to receive(:out_of_office_agent).and_wrap_original do |method, *args|
+            allow_any_instance_of(described_class).to receive(:out_of_office_agent).and_wrap_original do |method, **kwargs|
               ids_executed << method.receiver.id
-              method.call(*args)
+              method.call(**kwargs)
             end
 
             allow(Rails.logger).to receive(:warn)
@@ -506,7 +506,7 @@ RSpec.describe User, type: :model do
       let!(:token) { create(:token_password_reset) }
 
       it 'changes the password of the token user and destroys the token' do
-        expect { described_class.password_reset_via_token(token.token, Faker::Internet.password) }
+        expect { described_class.password_reset_via_token(token.token, 'VYxesRc6O2') }
           .to change { user.reload.password }
           .and change(Token, :count).by(-1)
       end

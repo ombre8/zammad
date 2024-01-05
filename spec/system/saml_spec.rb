@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 require 'rails_helper'
 
@@ -73,7 +73,7 @@ RSpec.describe 'SAML Authentication', authenticated_as: false, integration: true
       find('.auth-provider--saml').click
     when 'mobile'
       visit '/login', app: :mobile
-      find('.icon-mobile-saml').click
+      find('.icon-saml').click
     end
 
     login_saml_keycloak
@@ -114,6 +114,7 @@ RSpec.describe 'SAML Authentication', authenticated_as: false, integration: true
     find_by_id('app')
   end
 
+  # TODO: Should be replaced with tests for the new desktop-view (or the test in general should be removed outside of selenium).
   describe 'SP login and SP logout' do
     before do
       set_saml_config(security: security)

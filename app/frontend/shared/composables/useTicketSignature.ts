@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import type { TicketById } from '#shared/entities/ticket/types.ts'
 import type {
@@ -51,13 +51,11 @@ export const useTicketSignature = (ticket?: Ref<TicketById | undefined>) => {
   const signatureHandling = (editorName: string): FormHandler => {
     const handleSignature: FormHandlerFunction = (
       execution,
-      formNode,
-      values,
-      changeFields,
-      updateSchemaDataField,
-      schemaData,
-      changedField,
+      reactivity,
+      data,
     ) => {
+      const { formNode, values, changedField } = data
+
       if (
         changedField?.name !== 'group_id' &&
         changedField?.name !== 'articleSenderType'

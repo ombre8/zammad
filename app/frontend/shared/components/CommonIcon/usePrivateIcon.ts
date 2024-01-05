@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { computed } from 'vue'
 import type { Props } from './CommonIcon.vue'
@@ -26,8 +26,10 @@ export const usePrivateIcon = (
 
   const iconClass = computed(() => {
     let className = `icon-${props.name}`
-    if (props.animation) {
-      className += ` ${animationClassMap[props.animation]}`
+    // by default, always spin the spinner
+    const animation = props.animation || (props.name === 'spinner' && 'spin')
+    if (animation) {
+      className += ` ${animationClassMap[animation]}`
     }
     return className
   })

@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 class SessionsController < ApplicationController
   prepend_before_action :authenticate_and_authorize!, only: %i[switch_to_user list delete]
@@ -90,7 +90,13 @@ class SessionsController < ApplicationController
 
     auth = request.env['omniauth.auth']
 
-    redirect_url = request.env['omniauth.origin']&.include?('/mobile') ? '/mobile' : '/#'
+    redirect_url = if request.env['omniauth.origin']&.include?('/mobile')
+                     '/mobile'
+                   elsif request.env['omniauth.origin']&.include?('/desktop')
+                     '/desktop'
+                   else
+                     '/#'
+                   end
 
     if !auth
       logger.info('AUTH IS NULL, SERVICE NOT LINKED TO ACCOUNT')

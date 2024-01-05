@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 class TicketsController < ApplicationController
   include CreatesTicketArticles
@@ -168,7 +168,7 @@ class TicketsController < ApplicationController
       if params[:tags].present?
         tags = params[:tags].split(',')
         tags.each do |tag|
-          next if !::Tag.tag_allowed?(object: 'Ticket', name: tag, user_id: UserInfo.current_user_id)
+          next if !::Tag.tag_allowed?(name: tag, user_id: UserInfo.current_user_id)
 
           ticket.tag_add(tag)
         end

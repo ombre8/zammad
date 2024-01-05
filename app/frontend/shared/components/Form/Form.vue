@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import { isEqual, cloneDeep, merge, isEmpty } from 'lodash-es'
@@ -74,13 +74,13 @@ import FormGroup from './FormGroup.vue'
 export interface Props {
   id?: string
   schema?: FormSchemaNode[]
-  formUpdaterId?: EnumFormUpdaterId
+  schemaData?: Except<ReactiveFormSchemData, 'fields'>
   handlers?: FormHandler[]
   changeFields?: Record<string, Partial<FormSchemaField>>
+  formUpdaterId?: EnumFormUpdaterId
   // Maybe in the future this is no longer needed, when FormKit supports group
   // without value grouping below group name (https://github.com/formkit/formkit/issues/461).
   flattenFormGroups?: string[]
-  schemaData?: Except<ReactiveFormSchemData, 'fields'>
   formKitPlugins?: FormKitPlugin[]
   formKitSectionsSchema?: Record<
     string,
@@ -774,13 +774,17 @@ const executeFormHandler = (
   formHandlerExecution[execution].forEach((handler) => {
     handler(
       execution,
-      formNode.value,
-      currentValues,
-      changeFields,
-      updateSchemaDataField,
-      schemaData,
-      changedField,
-      props.initialEntityObject,
+      {
+        changeFields,
+        updateSchemaDataField,
+        schemaData,
+      },
+      {
+        formNode: formNode.value,
+        values: currentValues,
+        changedField,
+        initialEntityObject: props.initialEntityObject,
+      },
     )
   })
 }
@@ -924,11 +928,13 @@ const buildStaticSchema = () => {
     if ('component' in layoutNode) {
       layoutField = {
         $cmp: layoutNode.component,
+        ...(layoutNode.if && { if: layoutNode.if }),
         props: layoutNode.props,
       }
     } else {
       layoutField = {
         $el: layoutNode.element,
+        ...(layoutNode.if && { if: layoutNode.if }),
         attrs: layoutNode.attrs,
       }
     }
@@ -1181,7 +1187,7 @@ export default {
     v-if="debouncedShowInitialLoadingAnimation"
     class="flex items-center justify-center"
   >
-    <CommonIcon name="mobile-loading" animation="spin" />
+    <CommonIcon name="loading" animation="spin" />
   </div>
   <FormKit
     v-if="

@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 // To update snapshots, run `yarn cypress:snapshots`
 // DO NOT update snapshots, when running with --open flag (Cypress GUI)
@@ -6,9 +6,9 @@
 import { mountFormField, checkFormMatchesSnapshot } from '#cy/utils.ts'
 
 const radioOptions = [
-  { label: 'Incoming Phone', value: 1, icon: 'mobile-phone-in' },
-  { label: 'Outgoing Phone', value: 2, icon: 'mobile-phone-out' },
-  { label: 'Send Email', value: 3, icon: 'mobile-mail-out' },
+  { label: 'Incoming Phone', value: 1, icon: 'phone-in' },
+  { label: 'Outgoing Phone', value: 2, icon: 'phone-out' },
+  { label: 'Send Email', value: 3, icon: 'mail-out' },
 ]
 
 describe('testing visuals for "FieldRadio"', () => {

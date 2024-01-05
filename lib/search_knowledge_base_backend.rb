@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 class SearchKnowledgeBaseBackend
   attr_reader :knowledge_base
@@ -283,7 +283,7 @@ class SearchKnowledgeBaseBackend
       return false
     end
 
-    translation.category.send("#{visibility}_content?", translation.kb_locale)
+    translation.category.send(:"#{visibility}_content?", translation.kb_locale)
   end
 
   def prepare_scope_ids

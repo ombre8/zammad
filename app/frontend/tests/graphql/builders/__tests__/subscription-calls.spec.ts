@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { convertToGraphQLId } from '#shared/graphql/utils.ts'
 import { flushPromises } from '@vue/test-utils'
@@ -86,9 +86,7 @@ describe('mocked subscription works correctly', () => {
     expect(reactiveResult.value?.user.fullname).toBe(mocked.user.fullname)
 
     const mockedSubscription =
-      getGraphQLSubscriptionHandler<TestUserUpdatesSubscription>(
-        TestUserUpdatesDocument,
-      )
+      getGraphQLSubscriptionHandler<TestUserUpdatesSubscription>('userUpdates')
 
     await mockedSubscription.trigger({
       userUpdates: {

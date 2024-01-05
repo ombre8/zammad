@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import type { TicketItemData } from '../types.ts'
 
@@ -47,7 +47,7 @@ describe('ticket item display', () => {
     })
 
     expect(view.getByRole('group')).toHaveClass('text-yellow')
-    expect(view.getByIconName('mobile-check-circle-no')).toHaveAccessibleName(
+    expect(view.getByIconName('check-circle-no')).toHaveAccessibleName(
       '(state: open)',
     )
 
@@ -83,7 +83,7 @@ describe('ticket item display', () => {
     })
 
     expect(view.getByRole('group')).toHaveClass('text-yellow')
-    expect(view.getByIconName('mobile-check-circle-no')).toHaveAccessibleName(
+    expect(view.getByIconName('check-circle-no')).toHaveAccessibleName(
       '(state: open)',
     )
 

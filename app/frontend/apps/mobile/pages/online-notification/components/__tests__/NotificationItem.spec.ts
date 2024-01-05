@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { renderComponent } from '#tests/support/components/index.ts'
 import type { Scalars, Ticket } from '#shared/graphql/types.ts'
@@ -72,7 +72,7 @@ describe('NotificationItem.vue', () => {
   it('can delete online notification', async () => {
     const view = renderNotificationItem()
 
-    const deleteIcon = view.getByIconName('mobile-delete')
+    const deleteIcon = view.getByIconName('delete')
     expect(deleteIcon).toBeInTheDocument()
 
     await view.events.click(deleteIcon)

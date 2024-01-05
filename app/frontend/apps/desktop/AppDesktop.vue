@@ -1,8 +1,8 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
-import { useTicketOverviewsStore } from '#mobile/entities/ticket/stores/ticketOverviews.ts'
 import useFormKitConfig from '#shared/composables/form/useFormKitConfig.ts'
+import CommonButton from '#desktop/components/CommonButton/CommonButton.vue'
 import CommonNotifications from '#shared/components/CommonNotifications/CommonNotifications.vue'
 import useAppMaintenanceCheck from '#shared/composables/useAppMaintenanceCheck.ts'
 import { useAppTheme } from '#shared/stores/theme.ts'
@@ -12,9 +12,8 @@ import usePushMessages from '#shared/composables/usePushMessages.ts'
 import { useApplicationStore } from '#shared/stores/application.ts'
 import { useAuthenticationStore } from '#shared/stores/authentication.ts'
 import { useLocaleStore } from '#shared/stores/locale.ts'
-import { useSessionStore } from '#shared/stores/session.ts'
 import emitter from '#shared/utils/emitter.ts'
-import { onBeforeMount, watch, onBeforeUnmount } from 'vue'
+import { onBeforeMount, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 
 import LayoutSidebar from './components/layout/LayoutSidebar.vue'
@@ -22,7 +21,6 @@ import LayoutSidebar from './components/layout/LayoutSidebar.vue'
 const router = useRouter()
 
 const authentication = useAuthenticationStore()
-const session = useSessionStore()
 
 useMetaTitle().initializeMetaTitle()
 
@@ -66,15 +64,15 @@ emitter.on('sessionInvalid', async () => {
 
 // Initialize the ticket overview store after a valid session is present on
 // the app level, so that the query keeps alive.
-watch(
-  () => session.initialized,
-  (newValue, oldValue) => {
-    if (!oldValue && newValue) {
-      useTicketOverviewsStore()
-    }
-  },
-  { immediate: true },
-)
+// watch(
+//   () => session.initialized,
+//   (newValue, oldValue) => {
+//     if (!oldValue && newValue) {
+//       useTicketOverviewsStore()
+//     }
+//   },
+//   { immediate: true },
+// )
 
 onBeforeUnmount(() => {
   emitter.off('sessionInvalid')
@@ -86,6 +84,13 @@ const appTheme = useAppTheme()
 <template>
   <template v-if="application.loaded">
     <CommonNotifications />
+    <CommonButton
+      class="fixed top-2 ltr:right-2 rtl:left-2"
+      size="medium"
+      aria-label="Change theme"
+      :icon="appTheme.theme === 'light' ? 'sun' : 'moon'"
+      @click="appTheme.toggleTheme(false)"
+    />
   </template>
   <!-- TODO: styles are placeholders -->
   <div v-if="application.loaded" class="flex h-full">
@@ -97,17 +102,10 @@ const appTheme = useAppTheme()
       <LayoutSidebar />
     </aside>
 
-    <article class="w-full h-full antialiased">
+    <article
+      class="w-full h-full antialiased bg-white dark:bg-gray-500 text-gray-100 dark:text-neutral-400"
+    >
       <RouterView />
-
-      <div class="flex">
-        Change Theme:
-        <CommonIcon
-          name="mobile-info"
-          :class="appTheme.theme === 'dark' ? 'text-black' : 'text-yellow'"
-          @click="appTheme.toggleTheme(false)"
-        />
-      </div>
     </article>
   </div>
 </template>

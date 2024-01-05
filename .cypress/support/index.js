@@ -1,9 +1,11 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import './prepare.js'
 
 import '#mobile/styles/main.scss'
 import '#shared/components/CommonIcon/injectIcons.ts'
+
+import '../../public/assets/frontend/fonts.css'
 
 import './commands.js'
 

@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 require 'rails_helper'
 
@@ -118,7 +118,7 @@ RSpec.describe ObjectManager::Attribute::SetDefaults, time_zone: 'Europe/London'
 
       DEFAULT_VALUES.each_key do |elem|
         it "#{elem} is empty" do
-          expect(example.send("rspec_#{elem}")).to be_nil
+          expect(example.send(:"rspec_#{elem}")).to be_nil
         end
       end
     end
@@ -128,7 +128,7 @@ RSpec.describe ObjectManager::Attribute::SetDefaults, time_zone: 'Europe/London'
 
       DEFAULT_VALUES.each_key do |elem|
         it "#{elem} is empty" do
-          expect(example.send("rspec_#{elem}_no_default")).to be_nil
+          expect(example.send(:"rspec_#{elem}_no_default")).to be_nil
         end
       end
     end

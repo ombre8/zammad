@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 ##
 # A mixin for ActiveRecord models that enables the possibilitty to perform actions.
@@ -104,7 +104,7 @@ module CanPerformChanges
 
       action = nil
       action_checks.each do |key|
-        action = send("#{key}_action", object_name, object_key, action_value, actions)
+        action = send(:"#{key}_action", object_name, object_key, action_value, actions)
         break if action
       end
 
@@ -134,10 +134,10 @@ module CanPerformChanges
     { name: :"notification_#{object_key}", value: action_value }
   end
 
-  def additional_object_action(*args)
+  def additional_object_action(*)
     return if !respond_to?(:additional_object_actions)
 
-    additional_object_action(*args)
+    additional_object_action(*)
   end
 
   def object_action(object_name, object_key, action_value, _prepared_actions)

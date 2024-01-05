@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import type { ConcreteComponent, Ref } from 'vue'
@@ -264,9 +264,7 @@ useTraverseOptions(autocompleteList)
         @keypress.space="executeAction"
       >
         <CommonIcon
-          :name="
-            context.actionIcon ? context.actionIcon : 'mobile-external-link'
-          "
+          :name="context.actionIcon ? context.actionIcon : 'external-link'"
           class="cursor-pointer text-white"
           size="base"
         />
@@ -339,9 +337,7 @@ useTraverseOptions(autocompleteList)
             'opacity-30': option.disabled,
           }"
           :name="
-            isCurrentValue(option.value)
-              ? 'mobile-check-box-yes'
-              : 'mobile-check-box-no'
+            isCurrentValue(option.value) ? 'check-box-yes' : 'check-box-no'
           "
           class="text-white/50 ltr:mr-3 rtl:ml-3"
           size="base"
@@ -385,7 +381,7 @@ useTraverseOptions(autocompleteList)
             'opacity-30': option.disabled,
           }"
           size="tiny"
-          name="mobile-check"
+          name="check"
           decorative
         />
       </div>

@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import { computed, ref, toRef } from 'vue'
@@ -159,7 +159,7 @@ const processSearchKeydown = (event: KeyboardEvent) => {
             :disabled="tagExists(filter)"
             @click="createTag()"
           >
-            <CommonIcon class="p-1" size="tiny" name="mobile-add" decorative />
+            <CommonIcon class="p-1" size="tiny" name="add" decorative />
           </button>
         </template>
       </CommonInputSearch>
@@ -187,11 +187,7 @@ const processSearchKeydown = (event: KeyboardEvent) => {
           :class="{
             '!text-white': isCurrentValue(option),
           }"
-          :name="
-            isCurrentValue(option)
-              ? 'mobile-check-box-yes'
-              : 'mobile-check-box-no'
-          "
+          :name="isCurrentValue(option) ? 'check-box-yes' : 'check-box-no'"
           class="text-white/50 ltr:mr-3 rtl:ml-3"
           size="base"
           decorative

@@ -1,11 +1,11 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 module Gql::Types::Input::Ticket
   class CreateInputType < BaseInputType
     description 'Represents the ticket attributes to be used in ticket create.'
 
     only_for_ticket_agents = lambda do |payload, context|
-      return context.current_user.permissions?('ticket.agent') ? payload : BaseInputType::ArgumentFilteredOut.new
+      context.current_user.permissions?('ticket.agent') ? payload : BaseInputType::ArgumentFilteredOut.new
     end
 
     # Arguments required for create.

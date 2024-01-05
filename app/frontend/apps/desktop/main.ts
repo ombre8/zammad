@@ -1,8 +1,7 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { createApp } from 'vue'
 
-import '#shared/components/CommonIcon/injectIcons.ts'
 import '#desktop/styles/main.scss'
 
 import { useSessionStore } from '#shared/stores/session.ts'
@@ -16,9 +15,13 @@ import initializeGlobalComponents from '#shared/initializer/globalComponents.ts'
 import { initializeAppName } from '#shared/composables/useAppName.ts'
 import initializeGlobalProperties from '#shared/initializer/globalProperties.ts'
 
+import { initializeDesktopIcons } from '#desktop/initializer/initializeDesktopIcons.ts'
+import { initializeGlobalComponentStyles } from '#desktop/initializer/initializeGlobalComponentStyles.ts'
 import initializeApolloClient from '#desktop/server/apollo/index.ts'
 import initializeRouter from '#desktop/router/index.ts'
 import initializeForm from '#desktop/form/index.ts'
+
+import { ensureAfterAuth } from './pages/login/after-auth/composable/useAfterAuthPlugins.ts'
 
 import App from './AppDesktop.vue'
 
@@ -26,9 +29,11 @@ export const mountApp = async () => {
   const app = createApp(App)
 
   initializeApolloClient(app)
-  initializeRouter(app)
+  const router = initializeRouter(app)
   initializeStore(app)
+  initializeDesktopIcons()
   initializeForm(app)
+  initializeGlobalComponentStyles()
   initializeGlobalComponents(app)
   initializeAppName('desktop')
   initializeGlobalProperties(app)
@@ -72,5 +77,7 @@ export const mountApp = async () => {
 
   app.mount('#app')
 
-  // TODO: afterAuth
+  if (session.afterAuth) {
+    await ensureAfterAuth(router, session.afterAuth)
+  }
 }

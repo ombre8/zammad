@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 class Service::Avatar::Add < Service::BaseWithCurrentUser
   def execute(full_image:, resize_image:)
@@ -7,11 +7,11 @@ class Service::Avatar::Add < Service::BaseWithCurrentUser
       o_id:      current_user.id,
       full:      {
         content:   full_image[:content],
-        mime_type: (full_image[:type] || full_image[:mime_type]),
+        mime_type: full_image[:type] || full_image[:mime_type],
       },
       resize:    {
         content:   resize_image[:content],
-        mime_type: (resize_image[:type] || resize_image[:mime_type]),
+        mime_type: resize_image[:type] || resize_image[:mime_type],
       },
       source:    "upload #{Time.zone.now}",
       deletable: true,

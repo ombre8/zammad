@@ -1,9 +1,10 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 /* eslint-disable no-use-before-define */
 
 import type { Ref, WatchStopHandle } from 'vue'
 import { watch } from 'vue'
 import type {
+  ApolloError,
   ApolloQueryResult,
   FetchMoreOptions,
   FetchMoreQueryOptions,
@@ -98,7 +99,7 @@ export default class QueryHandler<
     } catch (error) {
       return {
         data: null,
-        error,
+        error: error as ApolloError,
       }
     } finally {
       this.lastCancel = null

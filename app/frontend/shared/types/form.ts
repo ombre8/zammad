@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import type { App } from 'vue'
 import type { FormKitTypeDefinition } from '@formkit/core'
@@ -50,3 +50,8 @@ export interface FormDefaultProps {
 }
 
 export type FormUpdaterTrigger = 'direct' | 'delayed' | 'blur' | 'form-reset'
+
+export interface FormDecoratorIcons {
+  checkboxDecorator?: string
+  radioDecorator?: string
+}

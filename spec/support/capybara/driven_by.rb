@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 require_relative 'set_up'
 
@@ -50,6 +50,8 @@ RSpec.configure do |config|
     screen_size = example.metadata[:screen_size] || case example.metadata[:app]
                                                     when :mobile
                                                       :mobile
+                                                    when :desktop_view
+                                                      :desktop_view
                                                     else
                                                       :desktop
                                                     end

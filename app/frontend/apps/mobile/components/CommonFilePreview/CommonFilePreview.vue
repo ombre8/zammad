@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import { computed, getCurrentInstance, ref } from 'vue'
@@ -109,7 +109,7 @@ const onFileClick = (event: Event) => {
           v-else-if="loading"
           size="base"
           :label="$t('File \'%s\' is uploading', file.name)"
-          name="mobile-loading"
+          name="loading"
           animation="spin"
         />
         <CommonIcon v-else size="base" decorative :name="icon" />
@@ -134,7 +134,7 @@ const onFileClick = (event: Event) => {
     >
       <CommonIcon
         class="text-gray ltr:right-2 rtl:left-2"
-        name="mobile-close-small"
+        name="close-small"
         size="base"
         decorative
       />

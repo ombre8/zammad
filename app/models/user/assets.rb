@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 class User
   module Assets
@@ -58,7 +58,7 @@ returns
       end
 
       # get groups
-      local_attributes['group_ids']&.each do |group_id, _access|
+      local_attributes['group_ids']&.each_key do |group_id|
         next if data[:Group] && data[:Group][group_id]
 
         group = Group.lookup(id: group_id)

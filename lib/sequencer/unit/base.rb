@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 class Sequencer::Unit::Base
   include ::Mixin::RailsLogger
@@ -199,7 +199,7 @@ class Sequencer::Unit::Base
   # This method creates the convenience method
   # setter for the given attribute.
   def self.provide_setter(attribute)
-    define_method("#{attribute}=") do |value|
+    define_method(:"#{attribute}=") do |value|
       state.provide(attribute, value)
     end
   end
@@ -243,8 +243,8 @@ class Sequencer::Unit::Base
 
   # This method is an convenience wrapper to create an instance
   # and then directly processing it.
-  def self.process(*args)
-    new(*args).process
+  def self.process(*)
+    new(*).process
   end
 
   def initialize(state)

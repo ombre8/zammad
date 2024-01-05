@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 require 'rails_helper'
 
@@ -99,6 +99,19 @@ RSpec.describe ExternalDataSource do
           expect(UserAgent)
             .to have_received(:get)
             .with("https://dummyjson.com/ticket/#{ticket.id}", anything, anything)
+        end
+      end
+
+      context 'when search term contains umlauts (#4980)' do
+        let(:search_term) { 'bücher' }
+        let(:search_url)  { 'https://dummyjson.com/products/search?q=#{search.term}' } # rubocop:disable Lint/InterpolationCheck
+
+        it 'properly URL encodes search term' do
+          described_class.new(options: data_option, render_context: {}, term: search_term, limit: 1).process
+
+          expect(UserAgent)
+            .to have_received(:get)
+            .with("https://dummyjson.com/products/search?q=#{ERB::Util.url_encode(search_term)}", anything, anything)
         end
       end
 

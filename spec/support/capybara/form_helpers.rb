@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 require_relative 'test_flags'
 
@@ -871,4 +871,5 @@ end
 
 RSpec.configure do |config|
   config.include FormHelpers, type: :system, app: :mobile
+  config.include FormHelpers, type: :system, app: :desktop_view
 end

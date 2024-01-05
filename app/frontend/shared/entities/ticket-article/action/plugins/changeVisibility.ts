@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { MutationHandler } from '#shared/server/apollo/handler/index.ts'
 import { useTicketArticleChangeVisibilityMutation } from '#shared/entities/ticket-article/graphql/mutations/changeVisibility.api.ts'
@@ -38,7 +38,7 @@ const actionPlugin: TicketArticleActionPlugin = {
       apps: ['mobile'],
       label,
       name: 'changeVisibility',
-      icon: { mobile: `mobile-${iconName}`, desktop: `desktop-${iconName}` },
+      icon: iconName,
       view: {
         agent: ['change'],
       },

@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 /* eslint-disable vue/no-v-html */
@@ -340,7 +340,7 @@ const onContextClick = () => {
             @keydown.enter.prevent="onContextClick()"
           >
             <CommonIcon
-              name="mobile-more-vertical"
+              name="more-vertical"
               size="small"
               decorative
               data-ignore-click

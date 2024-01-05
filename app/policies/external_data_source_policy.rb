@@ -1,8 +1,8 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 class ExternalDataSourcePolicy < ApplicationPolicy
   def fetch?
-    send "fetch_#{record.downcase}?"
+    send :"fetch_#{record.downcase}?"
   end
 
   private

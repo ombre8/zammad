@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { cloneDeep } from 'lodash-es'
 import { waitFor } from '@testing-library/vue'
@@ -222,11 +222,11 @@ const checkSelectClearable = (
 
   if (clearable) {
     expect(
-      getByIconName(wrapper.getByLabelText(label), 'mobile-close-small'),
+      getByIconName(wrapper.getByLabelText(label), 'close-small'),
     ).toBeInTheDocument()
   } else {
     expect(
-      queryByIconName(wrapper.getByLabelText(label), 'mobile-close-small'),
+      queryByIconName(wrapper.getByLabelText(label), 'close-small'),
     ).not.toBeInTheDocument()
   }
 }

@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { OrganizationDocument } from '#mobile/entities/organization/graphql/queries/organization.api.ts'
 import { UserDocument } from '#mobile/entities/user/graphql/queries/user.api.ts'
@@ -113,5 +113,18 @@ describe('correctly mocks operations', () => {
       update: true,
       agentReadAccess: false,
     })
+  })
+
+  it('fixes ID if its not in graphql format', () => {
+    const { id } = generateObjectData<Ticket>('Ticket', { id: '1' })
+    expect(id).toBe(convertToGraphQLId('Ticket', 1))
+  })
+
+  it('throws an error if ID is in invalid format', () => {
+    expect(() => {
+      generateObjectData<Ticket>('Ticket', { id: 'dsfsdffds' })
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[Error: expected numerical or graphql id for Ticket, got dsfsdffds]`,
+    )
   })
 })

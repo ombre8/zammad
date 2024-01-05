@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 module FormUpdater::Concerns::HasSecurityOptions
   extend ActiveSupport::Concern
@@ -18,7 +18,7 @@ module FormUpdater::Concerns::HasSecurityOptions
   private
 
   def fetch_security_options(klass, security_type)
-    security_result = klass.new(ticket: data, article: (data['article'] || {})).process
+    security_result = klass.new(ticket: data, article: data['article'] || {}).process
 
     return if !result
 

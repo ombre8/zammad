@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
@@ -40,7 +40,7 @@ watch(
     >
       <CommonIcon
         :label="__('Loading content')"
-        name="mobile-loading"
+        name="loading"
         animation="spin"
       />
     </div>

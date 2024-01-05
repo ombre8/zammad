@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import {
   Kind,
@@ -156,41 +156,58 @@ const stripQueryData = (
 
 type OperationType = 'query' | 'mutation' | 'subscription'
 
-export const getGraphQLMockCalls = <T>(
+const getCachedKey = (
   documentOrOperation: DocumentNode | OperationType,
   operationName?: string,
-): MockCall<DeepRequired<T>>[] => {
+) => {
   const key =
     typeof documentOrOperation === 'string'
       ? namesToQueryKeys.get(`${documentOrOperation}:${operationName}`)
       : requestToKey(documentOrOperation)
   if (!key) {
     throw new Error(
-      `Not able to find key for ${documentOrOperation}:${operationName}`,
+      `Cannot find key for ${documentOrOperation}:${operationName}. This happens if query was not executed yet or if it was not mocked.`,
     )
   }
-  return mockCalls.get(key) || []
+  return key
+}
+
+export const getGraphQLMockCalls = <T>(
+  documentOrOperation: DocumentNode | OperationType,
+  operationName?: keyof T & string,
+): MockCall<DeepRequired<T>>[] => {
+  return mockCalls.get(getCachedKey(documentOrOperation, operationName)) || []
 }
 
 export const waitForGraphQLMockCalls = <T>(
   documentOrOperation: DocumentNode | OperationType,
-  operationName?: string,
+  operationName?: keyof T & string,
 ): Promise<MockCall<DeepRequired<T>>[]> => {
-  return vi.waitUntil(() =>
-    getGraphQLMockCalls<T>(documentOrOperation, operationName),
-  )
+  return vi.waitUntil(() => {
+    try {
+      const calls = getGraphQLMockCalls<T>(documentOrOperation, operationName)
+      return calls.length && calls
+    } catch {
+      return false
+    }
+  })
 }
 
-export const mockGraphQLResult = <T extends Record<string, any>>(
+export type MockDefaultsValue<T, V = Record<string, never>> =
+  | DeepPartial<T>
+  | ((variables: V) => DeepPartial<T>)
+
+export const mockGraphQLResult = <
+  T extends Record<string, any>,
+  V extends Record<string, any> = Record<string, never>,
+>(
   document: DocumentNode,
-  defaults:
-    | DeepPartial<T>
-    | ((variables?: Record<string, unknown>) => DeepPartial<T>),
+  defaults: MockDefaultsValue<T, V>,
 ) => {
   const key = requestToKey(document)
   mockDefaults.set(key, defaults)
   return {
-    updateDefaults: (defaults: DeepPartial<T>) => {
+    updateDefaults: (defaults: MockDefaultsValue<T, V>) => {
       mockDefaults.set(key, defaults)
     },
     waitForCalls: () => waitForGraphQLMockCalls<T>(document),
@@ -211,11 +228,14 @@ const mockSubscriptionHanlders = new Map<
   TestSubscriptionHandler<Record<string, any>>
 >()
 export const getGraphQLSubscriptionHandler = <T extends Record<string, any>>(
-  document: DocumentNode,
+  documentOrName: DocumentNode | (keyof T & string),
 ) => {
-  return mockSubscriptionHanlders.get(
-    requestToKey(document),
-  ) as TestSubscriptionHandler<T>
+  const key =
+    typeof documentOrName === 'string'
+      ? getCachedKey('subscription', documentOrName)
+      : getCachedKey(documentOrName)
+
+  return mockSubscriptionHanlders.get(key) as TestSubscriptionHandler<T>
 }
 
 afterEach(() => {
@@ -239,7 +259,7 @@ const getInputObjectType = (variableNode: TypeNode): string | null => {
 const getQueryDefaults = (
   requestKey: string,
   definition: OperationDefinitionNode,
-  variables: Record<string, any>,
+  variables: Record<string, any> = {},
 ): Record<string, any> => {
   let userDefaults = mockDefaults.get(requestKey)
   if (typeof userDefaults === 'function') {

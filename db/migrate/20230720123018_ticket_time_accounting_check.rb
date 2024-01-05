@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 class TicketTimeAccountingCheck < ActiveRecord::Migration[6.1]
   def change
@@ -38,7 +38,7 @@ class TicketTimeAccountingCheck < ActiveRecord::Migration[6.1]
     return if selector.blank?
     return if selector[:condition].blank?
 
-    selector[:condition].each do |_key, value|
+    selector[:condition].each_value do |value|
       if value[:pre_condition] == 'not_set'
         value[:operator] = 'not set'
         value.delete(:pre_condition)

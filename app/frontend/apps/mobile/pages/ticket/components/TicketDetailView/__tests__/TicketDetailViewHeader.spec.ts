@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 const now = new Date('2020-02-01 00:00:00')
 vi.setSystemTime(now)
@@ -34,10 +34,7 @@ describe('tickets zoom header', () => {
       router: true,
     })
 
-    expect(
-      view.getByIconName('mobile-home'),
-      'has home icon',
-    ).toBeInTheDocument()
+    expect(view.getByIconName('home'), 'has home icon').toBeInTheDocument()
     expect(
       view.getByText(`#${ticket.number}`),
       'has ticket id',

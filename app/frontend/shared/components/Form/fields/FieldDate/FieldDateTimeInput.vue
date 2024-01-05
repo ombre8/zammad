@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import { i18n } from '#shared/i18n.ts'
@@ -168,8 +168,8 @@ const createCalendarFooter = (picker: flatpickr.Instance) => {
   return footer
 }
 
-const iconPrevArrow = useRawHTMLIcon({ name: 'mobile-chevron-left' })
-const iconNextArrow = useRawHTMLIcon({ name: 'mobile-chevron-right' })
+const iconPrevArrow = useRawHTMLIcon({ name: 'chevron-left' })
+const iconNextArrow = useRawHTMLIcon({ name: 'chevron-right' })
 
 const createFlatpickr = () => {
   if (!pickerNode.value || props.context.disabled) return undefined
@@ -233,7 +233,10 @@ const recalculateHeight = async (
   })
 }
 
+const rendered = ref(false)
+
 const rerenderFlatpickr = async () => {
+  if (rendered.value) rendered.value = false
   const flatpickr = createFlatpickr()
   if (flatpickr) {
     const footer = createCalendarFooter(flatpickr)
@@ -244,6 +247,7 @@ const rerenderFlatpickr = async () => {
     await recalculateHeight(flatpickr)
   }
   datepicker.value = flatpickr
+  rendered.value = true
 }
 
 onMounted(rerenderFlatpickr)
@@ -319,6 +323,7 @@ useEventListener('click', (e) => {
 })
 
 onBeforeUnmount(() => {
+  rendered.value = false
   datepicker.value?.destroy?.()
 })
 </script>
@@ -332,6 +337,7 @@ onBeforeUnmount(() => {
       :name="props.context.node.name"
       :class="props.context.classes.input"
       :disabled="props.context.disabled as boolean"
+      :data-rendered="rendered"
       @blur="context.handlers.blur"
       @focus="showPicker = true"
     />
@@ -368,7 +374,7 @@ span.flatpickr-weekday {
 
 .flatpickr-day.selected:hover,
 .flatpickr-day.selected {
-  @apply border-blue bg-blue bg-none;
+  @apply date-selection;
 }
 
 .flatpickr-months .flatpickr-prev-month.flatpickr-prev-month:hover,
@@ -385,7 +391,7 @@ span.flatpickr-weekday {
 .flatpickr-months .flatpickr-next-month:hover,
 .flatpickr-months .flatpickr-next-month,
 .flatpickr-months .flatpickr-prev-month {
-  @apply text-blue;
+  @apply date-navigation;
 }
 
 .flatpickr-months .flatpickr-prev-month:hover svg,

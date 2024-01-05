@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import type { TicketArticleActionPlugin, TicketArticleType } from './types.ts'
 
@@ -10,10 +10,7 @@ const actionPlugin: TicketArticleActionPlugin = {
       apps: ['mobile'],
       value: 'note',
       label: __('Note'),
-      icon: {
-        mobile: 'mobile-note',
-        desktop: 'desktop-note',
-      },
+      icon: 'note',
       view: {
         agent: ['change'],
       },

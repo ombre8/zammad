@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import { computed } from 'vue'
@@ -60,7 +60,7 @@ const backgroundClass = computed(() => {
     <CommonIcon
       :size="pill ? 'tiny' : 'base'"
       :label="$t('(state: %s)', $t(label))"
-      name="mobile-check-circle-no"
+      name="ticket-state-circle"
     />
     <div
       v-if="pill"

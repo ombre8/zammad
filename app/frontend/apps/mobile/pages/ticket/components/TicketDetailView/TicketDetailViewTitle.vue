@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
@@ -91,9 +91,7 @@ const customer = computed(() => {
         </div>
       </div>
       <CommonIcon
-        :name="`mobile-chevron-${
-          locale.localeData?.dir === 'rtl' ? 'left' : 'right'
-        }`"
+        :name="`chevron-${locale.localeData?.dir === 'rtl' ? 'left' : 'right'}`"
         size="base"
         class="shrink-0 self-center ltr:-mr-2 ltr:ml-auto rtl:-ml-2 rtl:mr-auto"
         decorative

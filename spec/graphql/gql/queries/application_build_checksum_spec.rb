@@ -1,16 +1,16 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 require 'rails_helper'
 
 RSpec.describe Gql::Queries::ApplicationBuildChecksum, authenticated_as: false, type: :graphql do
 
   context 'when checking the application build checksum' do
-    let(:vite_path) { Rails.public_path.join('assets/frontend/vite') }
+    let(:vite_path) { Rails.public_path.join('assets/frontend/vite/.vite') }
     let(:filename)  { "#{vite_path}/manifest.json" }
     let!(:initial_checksum) do
       # Create some content to the file at the beginning, because normally it not exists for the graphql tests.
       if !File.exist? filename
-        Dir.mkdir(vite_path, 0o755)
+        FileUtils.mkdir_p(vite_path, mode: 0o755)
         File.open(filename, 'a') do |file|
           file.write('{}')
         end

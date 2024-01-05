@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-use-before-define */
@@ -8,13 +8,7 @@ import {
   convertToGraphQLId,
   getIdFromGraphQLId,
 } from '#shared/graphql/utils.ts'
-
-import {
-  Kind,
-  type DocumentNode,
-  OperationTypeNode,
-  type FieldNode,
-} from 'graphql'
+import { Kind, type DocumentNode, OperationTypeNode } from 'graphql'
 import { createRequire } from 'node:module'
 import type { DeepPartial, DeepRequired } from '#shared/types/utils.ts'
 import { uniqBy } from 'lodash-es'
@@ -145,6 +139,8 @@ export const getOperationDefinition = (
   return fields.find((field) => field.name === name)!
 }
 
+// there are some commonly named fields that backend uses
+// so we can assume what type they are
 const commonStringGenerators: Record<string, () => string> = {
   note: () => faker.lorem.sentence(),
   heading: () => faker.lorem.sentence(2),
@@ -153,6 +149,7 @@ const commonStringGenerators: Record<string, () => string> = {
   uid: () => faker.string.uuid(),
 }
 
+// generate default scalar values
 const getScalarValue = (
   parent: any,
   fieldName: string,
@@ -256,7 +253,7 @@ const deepMerge = (target: any, source: any): any => {
   for (const key in source) {
     const value = source[key]
 
-    if (typeof value === 'object') {
+    if (typeof value === 'object' && value !== null) {
       if (Array.isArray(value)) {
         target[key] = value.map((v, index) => {
           return deepMerge(target[key]?.[index] || {}, v)
@@ -332,7 +329,7 @@ const buildObjectFromInformation = (
       return generateGqlValue(parent, fieldName, actualFieldType, item, meta)
     })
     if (typeof builtList[0] === 'object' && builtList[0]?.id) {
-      return uniqBy(builtList, 'id')
+      return uniqBy(builtList, 'id') // if autocmocker generates duplicates, remove them
     }
     return builtList
   }
@@ -342,7 +339,7 @@ const buildObjectFromInformation = (
     { count: { min: 1, max: 5 } },
   )
   if (typeof builtList[0] === 'object' && builtList[0]?.id) {
-    return uniqBy(builtList, 'id')
+    return uniqBy(builtList, 'id') // if autocmocker generates duplicates, remove them
   }
   return builtList
 }
@@ -360,7 +357,7 @@ const generateObject = (
     'creating',
     definition.name,
     'from',
-    parent?.__typename,
+    parent?.__typename || 'the root',
     `(${parent?.id ? getIdFromGraphQLId(parent?.id) : null})`,
   )
   if (defaults === null) return null
@@ -380,7 +377,11 @@ const generateObject = (
     for (const key in resolved) {
       if (!(key in value)) {
         value[key] = resolved[key]
-      } else if (value[key] && typeof value[key] === 'object') {
+      } else if (
+        value[key] &&
+        typeof value[key] === 'object' &&
+        resolved[key]
+      ) {
         value[key] = deepMerge(resolved[key], value[key])
       }
     }
@@ -390,27 +391,58 @@ const generateObject = (
     return factoryCached ? deepMerge(factoryCached, defaults) : factoryCached
   }
   if (value.id) {
+    // I am not sure if this is a good change - it makes you think that ID is always numerical (even in prod) because of the tests
+    // but it removes a lot of repetitive code - time will tell!
+    if (typeof value.id !== 'string') {
+      throw new Error(
+        `id must be a string, got ${typeof value.id} inside ${type}`,
+      )
+    }
+    // session has a unique base64 id
+    if (type !== 'Session' && !value.id.startsWith('gid://zammad/')) {
+      if (Number.isNaN(Number(value.id))) {
+        throw new Error(
+          `expected numerical or graphql id for ${type}, got ${value.id}`,
+        )
+      }
+      const gqlId = convertToGraphQLId(type, value.id)
+      logger.log(
+        `received ${value.id} ID inside ${type}, rewriting to ${gqlId}`,
+      )
+      value.id = gqlId
+    }
     storedObjects.set(value.id, value)
   }
   const needUpdateTotalCount =
     type.endsWith('Connection') && !('totalCount' in value)
-  const buildField = (
-    field: SchemaObjectField,
-    node: FieldNode | null,
-    name: string,
-  ) => {
+  const buildField = (field: SchemaObjectField) => {
+    const { name } = field
     // ignore null and undefined
     if (name in value && value[name] == null) {
       return
     }
+    // if the object is already generated, keep it
     if (hasNodeParent(value[name])) {
       return
     }
     // by default, don't populate those fields since
     // first two can lead to recursions or inconsistent data
     // the "errors" should usually be "null" anyway
-    if (name === 'updatedBy' || name === 'createdBy' || name === 'errors') {
+    // this is still possible to override with defaults
+    if (
+      !(name in value) &&
+      (name === 'updatedBy' || name === 'createdBy' || name === 'errors')
+    ) {
       value[name] = null
+      return
+    }
+    // by default, all mutations are successful because errors are null
+    if (
+      field.type.kind === 'SCALAR' &&
+      name === 'success' &&
+      !(name in value)
+    ) {
+      value[name] = true
       return
     }
     value[name] = buildObjectFromInformation(
@@ -424,7 +456,7 @@ const generateObject = (
       storedObjects.set(value.id, value)
     }
   }
-  definition.fields!.forEach((field) => buildField(field, null, field.name))
+  definition.fields!.forEach((field) => buildField(field))
   if (needUpdateTotalCount) {
     value.totalCount = value.edges.length
   }
@@ -447,7 +479,7 @@ export const getObjectDefinition = (name: string) => {
   return definition
 }
 
-export const getUnionDefinition = (name: string) => {
+const getUnionDefinition = (name: string) => {
   const definition = schemaTypes.find(
     (type) => type.kind === 'UNION' && type.name === name,
   ) as SchemaUnionType
@@ -495,6 +527,12 @@ const generateGqlValue = (
   throw new Error(`wrong definition for ${typeDefinition.name}`)
 }
 
+/**
+ * Generates an object from a GraphQL type name.
+ * You can provide a partial defaults object to make it more predictable.
+ *
+ * This function always generates a new object and never caches it.
+ */
 export const generateObjectData = <T>(
   typename: string,
   defaults?: DeepPartial<T>,
@@ -504,12 +542,6 @@ export const generateObjectData = <T>(
     variables: {},
     cached: false,
   }) as T
-}
-
-const results = new WeakMap<DocumentNode, unknown>()
-
-export const getGqlOperationResult = <T>(document: DocumentNode): T => {
-  return results.get(document) as T
 }
 
 export const mockOperation = (
@@ -526,7 +558,6 @@ export const mockOperation = (
   const operationName = name!.value!
   const operationType = getOperationDefinition(operation, operationName)
   const query: any = { __typename: queriesTypes[operation] }
-  results.set(document, query)
   const rootName = operationType.name
   logger.log(`[MOCKER] mocking "${rootName}" ${operation}`)
 

@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 class ObjectManager::Attribute < ApplicationModel
   include HasDefaultModelUserRelations
@@ -792,7 +792,7 @@ where attributes are used in conditions
       .map { |elem| elem.select(:name, :condition) }
       .flatten
       .each do |item|
-        item.condition.each do |condition_key, _condition_attributes|
+        item.condition.each_key do |condition_key|
           attribute_list[condition_key] ||= {}
           attribute_list[condition_key][item.class.name] ||= []
           next if attribute_list[condition_key][item.class.name].include?(item.name)
@@ -823,7 +823,7 @@ is certain attribute used by triggers, overviews or schedulers
 =end
 
   def self.attribute_used_by_references?(object_name, attribute_name, references = attribute_to_references_hash)
-    references.each do |reference_key, _relations|
+    references.each_key do |reference_key|
       local_object, local_attribute = reference_key.split('.')
       next if local_object != object_name.downcase
       next if local_attribute != attribute_name
@@ -999,7 +999,7 @@ is certain attribute used by triggers, overviews or schedulers
   end
 
   def local_data_option=(val)
-    send("#{local_data_attr}=", val)
+    send(:"#{local_data_attr}=", val)
   end
 
   def data_option_maxlength_check

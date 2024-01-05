@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { FormHandlerExecution } from '#shared/components/Form/types.ts'
 import { useSessionStore } from '#shared/stores/session.ts'
@@ -33,15 +33,13 @@ export const useTicketFormOganizationHandler = (): FormHandler => {
 
   const handleOrganizationField: FormHandlerFunction = (
     execution,
-    formNode,
-    values,
-    changeFields,
-    updateSchemaDataField,
-    schemaData,
-    changedField,
-    initialEntityObject,
+    reactivity,
+    data,
     // eslint-disable-next-line sonarjs/cognitive-complexity
   ) => {
+    const { formNode, values, initialEntityObject, changedField } = data
+    const { schemaData, changeFields, updateSchemaDataField } = reactivity
+
     if (!executeHandler(execution, schemaData, changedField)) return
 
     const session = useSessionStore()

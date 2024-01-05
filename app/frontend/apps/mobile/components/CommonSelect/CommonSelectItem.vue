@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import CommonTicketStateIndicator from '#shared/components/CommonTicketStateIndicator/CommonTicketStateIndicator.vue'
@@ -55,7 +55,7 @@ const label = computed(() => {
       }"
       size="base"
       decorative
-      :name="selected ? 'mobile-check-box-yes' : 'mobile-check-box-no'"
+      :name="selected ? 'check-box-yes' : 'check-box-no'"
       class="text-white/50 ltr:mr-3 rtl:ml-3"
     />
     <CommonTicketStateIndicator
@@ -96,7 +96,7 @@ const label = computed(() => {
       }"
       decorative
       size="tiny"
-      name="mobile-check"
+      name="check"
     />
   </div>
 </template>

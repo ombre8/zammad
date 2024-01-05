@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { getNode } from '@formkit/core'
 import { FormKit } from '@formkit/vue'
@@ -111,19 +111,19 @@ describe('toggling visibility', () => {
   it('can show password', async () => {
     const input = wrapper.getByLabelText('Password')
 
-    const iconToggle = wrapper.getByIconName('mobile-show')
+    const iconToggle = wrapper.getByIconName('show')
 
     await wrapper.events.click(iconToggle)
     await waitForNextTick(true)
 
     expect(input).toHaveAttribute('type', 'text')
-    expect(wrapper.getByIconName('mobile-hide')).toBeInTheDocument()
+    expect(wrapper.getByIconName('hide')).toBeInTheDocument()
   })
 
   it('can hide password', async () => {
     const input = wrapper.getByLabelText('Password')
 
-    const iconToggle = wrapper.getByIconName('mobile-hide')
+    const iconToggle = wrapper.getByIconName('hide')
 
     await wrapper.events.click(iconToggle)
     await waitForNextTick(true)
@@ -131,6 +131,6 @@ describe('toggling visibility', () => {
     await waitForNextTick(true)
 
     expect(input).toHaveAttribute('type', 'password')
-    expect(wrapper.getByIconName('mobile-show')).toBeInTheDocument()
+    expect(wrapper.getByIconName('show')).toBeInTheDocument()
   })
 })

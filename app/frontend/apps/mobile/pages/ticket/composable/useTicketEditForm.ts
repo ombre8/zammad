@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { FormHandlerExecution } from '#shared/components/Form/types.ts'
 import { createArticleTypes } from '#shared/entities/ticket-article/action/plugins/index.ts'
@@ -126,12 +126,12 @@ export const useTicketEditForm = (ticket: Ref<TicketById | undefined>) => {
             {
               value: true,
               label: __('Internal'),
-              icon: 'mobile-lock',
+              icon: 'lock',
             },
             {
               value: false,
               label: __('Public'),
-              icon: 'mobile-unlock',
+              icon: 'unlock',
             },
           ],
         },
@@ -249,13 +249,12 @@ export const useTicketEditForm = (ticket: Ref<TicketById | undefined>) => {
 
     const handleArticleType: FormHandlerFunction = (
       execution,
-      formNode,
-      values,
-      changeFields,
-      updateSchemaDataField,
-      schemaData,
-      changedField,
+      reactivity,
+      data,
     ) => {
+      const { formNode, changedField } = data
+      const { schemaData } = reactivity
+
       if (
         !executeHandler(execution, schemaData, changedField) ||
         !ticket.value ||

@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 module ActiveSupport::Callbacks::ClassMethods
   # Performs actions on a ActiveSupport model without triggering the given callback.
@@ -23,12 +23,12 @@ module ActiveSupport::Callbacks::ClassMethods
   #  #=> 'example return value'
   #
   # @return [optional] Returns the return value of the given block
-  def without_callback(*args)
+  def without_callback(*)
     begin
-      skip_callback(*args)
+      skip_callback(*)
       result = yield
     ensure
-      set_callback(*args)
+      set_callback(*)
     end
     result
   end

@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { convertToGraphQLId } from '#shared/graphql/utils.ts'
 import { SYSTEM_USER_ID } from '#shared/utils/constants.ts'
@@ -66,7 +66,7 @@ describe('CommonUserAvatar', () => {
       },
     })
 
-    expect(view.getByIconName('mobile-twitter')).toBeInTheDocument()
+    expect(view.getByIconName('twitter')).toBeInTheDocument()
 
     await view.rerender(<Props>{
       entity: {
@@ -75,7 +75,7 @@ describe('CommonUserAvatar', () => {
       },
     })
 
-    expect(view.getByIconName('mobile-facebook')).toBeInTheDocument()
+    expect(view.getByIconName('facebook')).toBeInTheDocument()
 
     await view.rerender(<Props>{
       entity: {
@@ -84,9 +84,7 @@ describe('CommonUserAvatar', () => {
       },
     })
 
-    expect(
-      view.queryByIconName('mobile-some-unknown-source'),
-    ).not.toBeInTheDocument()
+    expect(view.queryByIconName('some-unknown-source')).not.toBeInTheDocument()
   })
 
   it('renders active and outOfOffice', async () => {
@@ -135,7 +133,7 @@ describe('CommonUserAvatar', () => {
       },
     })
 
-    expect(view.getByIconName('mobile-crown')).toBeInTheDocument()
+    expect(view.getByIconName('crown')).toBeInTheDocument()
 
     await view.rerender(<Props>{
       entity: {
@@ -145,6 +143,6 @@ describe('CommonUserAvatar', () => {
       personal: true,
     })
 
-    expect(view.queryByIconName('mobile-crown')).not.toBeInTheDocument()
+    expect(view.queryByIconName('crown')).not.toBeInTheDocument()
   })
 })

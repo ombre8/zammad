@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { MutationHandler } from '#shared/server/apollo/handler/index.ts'
 import { useTicketArticleDeleteMutation } from '#shared/entities/ticket-article/graphql/mutations/delete.api.ts'
@@ -80,7 +80,7 @@ const actionPlugin: TicketArticleActionPlugin = {
       apps: ['mobile'],
       label: __('Delete Article'),
       name: 'articleDelete',
-      icon: { mobile: 'trash', desktop: 'trash' },
+      icon: 'trash',
       perform: () => deleteAction(article),
       view: {
         agent: ['change'],

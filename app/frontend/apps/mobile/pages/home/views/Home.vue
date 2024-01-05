@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import { computed } from 'vue'
@@ -18,7 +18,7 @@ const menu: MenuItem[] = [
     type: 'link',
     link: '/tickets/view',
     label: __('Ticket Overviews'),
-    icon: { name: 'mobile-all-tickets', size: 'base' },
+    icon: { name: 'all-tickets', size: 'base' },
     iconBg: 'bg-pink',
     permission: ['ticket.agent', 'ticket.customer'],
   },
@@ -29,7 +29,7 @@ const menu: MenuItem[] = [
           type: 'link' as const,
           link: '/playground',
           label: 'Playground',
-          icon: { name: 'mobile-settings', size: 'small' as const },
+          icon: { name: 'settings', size: 'small' as const },
           iconBg: 'bg-orange',
         },
       ]
@@ -76,7 +76,7 @@ const ticketOverview = computed<MenuItem[]>(() => {
     >
       <template v-if="overviews.loading" #before-items>
         <div class="flex w-full justify-center">
-          <CommonIcon name="mobile-loading" animation="spin" />
+          <CommonIcon name="loading" animation="spin" />
         </div>
       </template>
     </CommonSectionMenu>

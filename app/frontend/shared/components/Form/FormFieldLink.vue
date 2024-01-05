@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
@@ -18,7 +18,7 @@ defineProps<{
       class="flex h-10 w-12 items-center justify-center"
       open-in-new-tab
     >
-      <CommonIcon name="mobile-external-link" decorative size="small" />
+      <CommonIcon name="form-field-link" decorative size="small" />
     </CommonLink>
   </div>
 </template>

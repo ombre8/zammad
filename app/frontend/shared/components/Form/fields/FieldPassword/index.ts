@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { cloneDeep } from 'lodash-es'
 import type { FormKitNode } from '@formkit/core'
@@ -12,14 +12,14 @@ const switchPasswordVisibility = (node: FormKitNode) => {
   const { props } = node
 
   props.suffixIconClass = 'select-none cursor-pointer'
-  props.suffixIcon = 'mobile-show'
+  props.suffixIcon = 'show'
   props.onSuffixIconClick = () => {
     props.type = props.type === 'password' ? 'text' : 'password'
   }
 
   node.on('prop:type', ({ payload, origin }) => {
     const { props } = origin
-    props.suffixIcon = payload === 'password' ? 'mobile-show' : 'mobile-hide'
+    props.suffixIcon = payload === 'password' ? 'show' : 'hide'
   })
 }
 

@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import { computed } from 'vue'
@@ -87,7 +87,7 @@ const router = useRouter()
         :aria-label="$t('Show ticket actions')"
         @click="showActions()"
       >
-        <CommonIcon name="mobile-more" size="base" decorative />
+        <CommonIcon name="more" size="base" decorative />
       </button>
     </div>
   </header>

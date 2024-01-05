@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { getNode } from '@formkit/core'
 import { FormKit } from '@formkit/vue'
@@ -125,20 +125,20 @@ describe('Form - Field - Radio (FormKit built-in)', () => {
           {
             label: 'Option 1',
             value: 1,
-            icon: 'mobile-mail-out',
+            icon: 'mail-out',
           },
           {
             label: 'Option 2',
             value: 2,
-            icon: 'mobile-clock',
+            icon: 'clock',
           },
         ],
         buttons: true,
       },
     })
 
-    expect(view.getByIconName('mobile-clock')).toBeInTheDocument()
-    expect(view.getByIconName('mobile-mail-out')).toBeInTheDocument()
+    expect(view.getByIconName('clock')).toBeInTheDocument()
+    expect(view.getByIconName('mail-out')).toBeInTheDocument()
   })
 
   it('can be disabled', async () => {

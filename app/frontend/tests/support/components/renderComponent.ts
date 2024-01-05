@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 // import of these files takes 2.5 seconds for each test file!
 // need to optimize this somehow
@@ -19,6 +19,7 @@ import applicationConfigPlugin from '#shared/plugins/applicationConfigPlugin.ts'
 import CommonIcon from '#shared/components/CommonIcon/CommonIcon.vue'
 import CommonLink from '#shared/components/CommonLink/CommonLink.vue'
 import CommonDateTime from '#shared/components/CommonDateTime/CommonDateTime.vue'
+import CommonLabel from '#shared/components/CommonLabel/CommonLabel.vue'
 import { imageViewerOptions } from '#shared/composables/useImageViewer.ts'
 import DynamicInitializer from '#shared/components/DynamicInitializer/DynamicInitializer.vue'
 import { initializeWalker } from '#shared/router/walker.ts'
@@ -34,6 +35,7 @@ import buildIconsQueries from './iconQueries.ts'
 import buildLinksQueries from './linkQueries.ts'
 import { setTestState, waitForNextTick } from '../utils.ts'
 import { cleanupStores, initializeStore } from './initializeStore.ts'
+import { getTestAppName } from './app.ts'
 
 // internal Vitest variable, ideally should check expect.getState().testPath, but it's not populated in 0.34.6 (a bug)
 const { filepath } = (globalThis as any).__vitest_worker__ as any
@@ -42,9 +44,10 @@ let formFields: ImportGlobEagerOutput<FormFieldTypeImportModules>
 let ConformationComponent: unknown
 let initDefaultVisuals: () => void
 
-const isMobile =
-  filepath.includes('apps/mobile') || filepath.includes('frontend/shared')
-const isDesktop = filepath.includes('apps/desktop')
+const appName = getTestAppName()
+
+const isMobile = appName !== 'desktop'
+const isDesktop = appName === 'desktop'
 
 // TODO: have a separate check for shared components
 if (isMobile) {
@@ -124,6 +127,7 @@ const defaultWrapperOptions: ExtendedMountingOptions<unknown> = {
       CommonIcon,
       CommonLink,
       CommonDateTime,
+      CommonLabel,
     },
     stubs: {},
     plugins,

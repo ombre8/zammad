@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 require 'rails_helper'
 
@@ -15,9 +15,9 @@ RSpec.describe ApplicationHandleInfo do
     #    but `ApplicationHandleInfo.current` lives outside of the database.)
     around do |example|
       original = described_class.send(attribute)
-      described_class.send("#{attribute}=", 'foo')
+      described_class.send(:"#{attribute}=", 'foo')
       example.run
-      described_class.send("#{attribute}=", original)
+      described_class.send(:"#{attribute}=", original)
     end
   end
 

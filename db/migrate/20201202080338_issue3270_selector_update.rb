@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 class Issue3270SelectorUpdate < ActiveRecord::Migration[5.2]
   def change
@@ -19,7 +19,7 @@ class Issue3270SelectorUpdate < ActiveRecord::Migration[5.2]
 
   def fix_selector(object)
     fixed = false
-    object.condition.each do |_attribute, attribute_condition|
+    object.condition.each_value do |attribute_condition|
       next if attribute_condition['operator'] != 'within next (relative)' && attribute_condition['operator'] != 'within last (relative)'
 
       attribute_condition['operator'] = if attribute_condition['operator'] == 'within next (relative)'

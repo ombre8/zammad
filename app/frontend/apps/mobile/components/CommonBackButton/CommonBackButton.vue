@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import { computed } from 'vue'
@@ -29,9 +29,9 @@ const isHomeButton = computed(() => {
 const locale = useLocaleStore()
 
 const icon = computed(() => {
-  if (isHomeButton.value) return 'mobile-home'
-  if (locale.localeData?.dir === 'rtl') return 'mobile-chevron-right'
-  return 'mobile-chevron-left'
+  if (isHomeButton.value) return 'home'
+  if (locale.localeData?.dir === 'rtl') return 'chevron-right'
+  return 'chevron-left'
 })
 </script>
 

@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 /* eslint-disable vue/no-v-html */
@@ -59,11 +59,7 @@ defineEmits<{
   >
     <div class="flex items-center ltr:mr-4 rtl:ml-4">
       <CommonUserAvatar v-if="createdBy" :entity="createdBy" />
-      <CommonAvatar
-        v-else
-        class="bg-red-bright text-white"
-        icon="mobile-lock"
-      />
+      <CommonAvatar v-else class="bg-red-bright text-white" icon="lock" />
     </div>
 
     <div class="flex flex-col">

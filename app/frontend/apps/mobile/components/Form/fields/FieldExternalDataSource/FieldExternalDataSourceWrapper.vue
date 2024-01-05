@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import type { JsonValue } from 'type-fest'
@@ -66,7 +66,7 @@ const additionalQueryParams = () => {
 }
 
 Object.assign(props.context, {
-  actionIcon: 'mobile-search',
+  actionIcon: 'search',
 
   gqlQuery: AutocompleteSearchObjectAttributeExternalDataSourceDocument,
 

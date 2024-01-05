@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 module ApplicationModel::CanAssociations
   extend ActiveSupport::Concern
@@ -60,7 +60,7 @@ returns
 
       next if Array(list).sort == Array(send(real_ids)).sort
 
-      send("#{real_ids}=", list)
+      send(:"#{real_ids}=", list)
       self.updated_at = Time.zone.now
     end
 
@@ -109,7 +109,7 @@ returns
 
       next if Array(list).sort == Array(send(real_ids)).sort
 
-      send("#{real_ids}=", list)
+      send(:"#{real_ids}=", list)
       self.updated_at = Time.zone.now
     end
   end

@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 module CanBePublished
   class StateMachine
@@ -21,14 +21,14 @@ module CanBePublished
     end
 
     def calculated_state_valid?(state_name, time)
-      date = @record.send "#{state_name}_at"
+      date = @record.send :"#{state_name}_at"
 
       date.present? && date < time
     end
 
     def set_timestamp
       override_unarchived_state if aasm.to_state == :unarchived
-      @record.send "#{aasm.to_state}_at=", Time.zone.now.change(sec: 0)
+      @record.send :"#{aasm.to_state}_at=", Time.zone.now.change(sec: 0)
     end
 
     def override_unarchived_state
@@ -40,10 +40,10 @@ module CanBePublished
     end
 
     def update_state_using_current_user(user, state_name)
-      return if !@record.send("#{state_name}_at_changed?")
+      return if !@record.send(:"#{state_name}_at_changed?")
 
-      new_value = @record.send("#{state_name}_at").present? ? user : nil
-      @record.send("#{state_name}_by=", new_value)
+      new_value = @record.send(:"#{state_name}_at").present? ? user : nil
+      @record.send(:"#{state_name}_by=", new_value)
     end
 
     def clear_archived

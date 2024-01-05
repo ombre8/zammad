@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { EnumOrderDirection } from '#shared/graphql/types.ts'
 import { waitFor } from '@testing-library/vue'
@@ -20,7 +20,7 @@ it('see default list when opening page', async () => {
 
   const view = await visitView('/tickets/view')
 
-  const plusSign = view.getByIconName('mobile-add')
+  const plusSign = view.getByIconName('add')
 
   expect(plusSign, 'can create a new ticket from here').toBeInTheDocument()
   expect(view.getLinkFromElement(plusSign)).toHaveAttribute(
@@ -41,7 +41,7 @@ it('see default list when opening page', async () => {
   ).toHaveTextContent('Created at')
 
   expect(
-    view.getByIconName('mobile-arrow-down'),
+    view.getByIconName('arrow-down'),
     'descending by default',
   ).not.toHaveClass('rotate-180')
 

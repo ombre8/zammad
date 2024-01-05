@@ -1,10 +1,10 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 class Sessions::Event::Base
 
   def initialize(params)
     params.each do |key, value|
-      instance_variable_set "@#{key}", value
+      instance_variable_set :"@#{key}", value
     end
 
     @is_web_socket = false

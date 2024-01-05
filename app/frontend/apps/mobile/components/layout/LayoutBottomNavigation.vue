@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 <script setup lang="ts">
 import CommonUserAvatar from '#shared/components/CommonUserAvatar/CommonUserAvatar.vue'
 import { useSessionStore } from '#shared/stores/session.ts'
@@ -33,7 +33,7 @@ const notificationCount = computed(() => {
         class="flex flex-1 justify-center"
         exact-active-class="text-blue"
       >
-        <CommonIcon name="mobile-home" />
+        <CommonIcon name="home" />
       </CommonLink>
       <CommonLink
         link="/notifications"
@@ -48,17 +48,17 @@ const notificationCount = computed(() => {
         >
           {{ notificationCount }}
         </div>
-        <CommonIcon name="mobile-notification-subscribed" decorative />
+        <CommonIcon name="notification-subscribed" decorative />
       </CommonLink>
       <CommonLink
         link="/account"
-        class="flex-1"
+        class="flex-1 group"
         exact-active-class="user-active"
       >
         <CommonUserAvatar
           v-if="user"
           :entity="user"
-          class="user-avatar"
+          class="group-[.user-active]:ring-2 group-[.user-active]:ring-blue"
           size="small"
           personal
         />
@@ -67,13 +67,7 @@ const notificationCount = computed(() => {
   </footer>
 </template>
 
-<style scoped lang="scss">
-.user-active {
-  .user-avatar {
-    @apply ring-2 ring-blue;
-  }
-}
-
+<style scoped>
 .bottom-navigation {
   padding-bottom: env(safe-area-inset-bottom);
 }

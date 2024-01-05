@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import { ref, toRef } from 'vue'
@@ -138,7 +138,7 @@ setupMissingOrDisabledOptionHandling()
           v-if="context.clearable && hasValue && !context.disabled"
           :aria-label="i18n.t('Clear Selection')"
           class="absolute -mt-5 shrink-0 text-gray ltr:right-2 rtl:left-2"
-          name="mobile-close-small"
+          name="close-small"
           size="base"
           role="button"
           tabindex="0"

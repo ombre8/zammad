@@ -1,14 +1,22 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 # Check if password matches system settings
 class PasswordPolicy
   include ::Mixin::HasBackends
+
+  class PasswordPolicy::Error < StandardError; end
 
   attr_reader :password
 
   # @param password [String, nil] to evaluate. nil is treated as empty string
   def initialize(password)
     @password = password || ''
+  end
+
+  def valid!
+    return if valid?
+
+    raise PasswordPolicy::Error, error.first
   end
 
   def valid?

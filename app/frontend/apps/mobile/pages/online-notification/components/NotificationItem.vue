@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import ActivityMessage from '#shared/components/ActivityMessage/ActivityMessage.vue'
@@ -66,7 +66,7 @@ const removeNotification = () => {
       :disabled="loading"
       @click="removeNotification()"
     >
-      <CommonIcon name="mobile-delete" class="text-red" size="tiny" />
+      <CommonIcon name="delete" class="text-red" size="tiny" />
     </button>
     <div class="flex items-center ltr:pr-2 rtl:pl-2">
       <div

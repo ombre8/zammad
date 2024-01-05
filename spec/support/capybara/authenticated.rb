@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 # This file registers a hook before each system test
 # which logs in with/authenticates the admin@example.com account.
@@ -30,7 +30,7 @@ RSpec.configure do |config|
     else
       ENV['FAKE_SELENIUM_LOGIN_USER_ID'] = User.find_by(email: credentials[:username]).id.to_s
 
-      if example.metadata[:app] != :mobile
+      if %i[desktop_view mobile].exclude?(example.metadata[:app])
         ENV['FAKE_SELENIUM_LOGIN_PENDING'] = 'true'
       end
     end

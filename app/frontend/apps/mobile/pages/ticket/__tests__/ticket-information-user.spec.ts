@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import {
   defaultUser,
@@ -95,10 +95,7 @@ describe('visiting ticket user page', () => {
 
     const getRegion = (name: string) => view.getByRole('region', { name })
 
-    expect(
-      view.getByIconName('mobile-crown'),
-      'vip has crown',
-    ).toBeInTheDocument()
+    expect(view.getByIconName('crown'), 'vip has crown').toBeInTheDocument()
 
     expect(
       view.queryByRole('region', { name: 'First name' }),

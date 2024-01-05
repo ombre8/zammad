@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 # Class for establishing LDAP connections. A wrapper around Net::LDAP needed for Auth and Sync.
 # ATTENTION: Loads custom 'net/ldap/entry' from 'lib/core_ext' which extends the Net::LDAP::Entry class.
@@ -82,9 +82,9 @@ class Ldap
   #  #=> true
   #
   # @return [Boolean] Returns true if entries are present false if not.
-  def entries?(*args)
+  def entries?(*)
     found = false
-    search(*args) do |_entry|
+    search(*) do |_entry|
       found = true
       break
     end
@@ -100,9 +100,9 @@ class Ldap
   #  #=> 10
   #
   # @return [Number] The count of matching entries.
-  def count(*args)
+  def count(*)
     counter = 0
-    search(*args) do |_entry|
+    search(*) do |_entry|
       counter += 1
     end
     counter

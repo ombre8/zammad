@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import type {
   TicketArticle,
@@ -75,7 +75,7 @@ export const createArticleTypes = (
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .map(({ apps, ...type }) => ({
         ...type,
-        icon: type.icon[app],
+        icon: type.icon,
       }))
   )
 }

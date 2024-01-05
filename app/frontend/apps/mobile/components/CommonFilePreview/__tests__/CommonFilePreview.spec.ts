@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { renderComponent } from '#tests/support/components/index.ts'
 import { getByIconName } from '#tests/support/components/iconQueries.ts'
@@ -76,7 +76,7 @@ describe('preview file component', () => {
     expect(link).toHaveAttribute('download')
     expect(link).toHaveAttribute('href', '#/api/url')
 
-    expect(view.getByIconName('mobile-template')).toBeInTheDocument()
+    expect(view.getByIconName('template')).toBeInTheDocument()
 
     await view.events.click(link)
 
@@ -140,7 +140,7 @@ describe('preview file component', () => {
     expect(div.tagName, 'not interactable link').not.toBe('A')
     expect(div.tagName, 'not interactable button').not.toBe('BUTTON')
 
-    expect(view.getByIconName('mobile-template')).toBeInTheDocument()
+    expect(view.getByIconName('template')).toBeInTheDocument()
 
     await view.events.click(div)
 
@@ -159,7 +159,7 @@ describe('preview file component', () => {
     const button = view.getByRole('button', { name: 'Remove name.word' })
 
     expect(button).toBeInTheDocument()
-    expect(getByIconName(button, 'mobile-close-small')).toBeInTheDocument()
+    expect(getByIconName(button, 'close-small')).toBeInTheDocument()
 
     await view.events.click(button)
 

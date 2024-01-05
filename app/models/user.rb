@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 class User < ApplicationModel
   include CanBeImported
@@ -666,6 +666,9 @@ returns
     return if !user
     return if !user.email
 
+    # Discard any possible previous tokens for safety reasons.
+    Token.where(action: 'Signup', user_id: user.id).destroy_all
+
     # generate token
     token = Token.create(action: 'Signup', user_id: user.id)
 
@@ -1274,7 +1277,7 @@ raise 'At least one user need to have admin permissions'
   # (see https://github.com/zammad/zammad/issues/2057)
   def update_caller_id
     # skip if "phone" does not change, or changes like [nil, ""]
-    return if persisted? && !previous_changes[:phone]&.any?(&:present?)
+    return if persisted? && !previous_changes[:phone]&.any?(&:present?) # rubocop:disable Style/InverseMethods
     return if destroyed? && phone.blank?
 
     Cti::CallerId.build(self)

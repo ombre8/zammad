@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import type { Ticket } from '#shared/graphql/types.ts'
 import { convertToGraphQLId } from '#shared/graphql/utils.ts'
@@ -98,7 +98,7 @@ describe('NotificationItem.vue', () => {
     expect(view.container).toHaveTextContent(
       'You can no longer see the ticket.',
     )
-    expect(view.getByIconName('mobile-lock')).toBeInTheDocument()
+    expect(view.getByIconName('lock')).toBeInTheDocument()
   })
 
   it('should emit "seen" event on click for none linked notifications', async () => {

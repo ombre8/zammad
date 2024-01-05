@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { escapeRegExp } from 'lodash-es'
 import { getByTestId, waitFor } from '@testing-library/vue'
@@ -230,6 +230,6 @@ describe('Form - Field - Customer - Query', () => {
 
     await wrapper.events.click(wrapper.getByLabelText('Select…'))
 
-    expect(wrapper.getByIconName('mobile-check')).toBeInTheDocument()
+    expect(wrapper.getByIconName('check')).toBeInTheDocument()
   })
 })

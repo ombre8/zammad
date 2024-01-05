@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 class OmniAuth::Strategies::SamlDatabase < OmniAuth::Strategies::SAML
   option :name, 'saml'
@@ -145,7 +145,13 @@ class OmniAuth::Strategies::SamlDatabase < OmniAuth::Strategies::SAML
     logout_response.soft = false
     logout_response.validate
 
-    redirect_path = session['omniauth.origin']&.include?('/mobile') ? '/mobile' : '/'
+    redirect_path = if session['omniauth.origin']&.include?('/mobile')
+                      '/mobile'
+                    elsif session['omniauth.origin']&.include?('/desktop')
+                      '/desktop'
+                    else
+                      '/'
+                    end
 
     self.class.destroy_session(env, session)
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import type { FormThemeClasses } from '#shared/types/form.ts'
 
@@ -10,13 +10,9 @@ const classes: FormThemeClasses = {
   global: {
     wrapper: 'formkit-disabled:opacity-30',
     label: 'formkit-label-hidden:sr-only',
-    help: 'mt-0.5 text-xs',
+    help: 'text-xs',
     messages: 'list-none',
-    message: 'text-red-bright pb-1 text-xs',
-    prefixIcon:
-      'absolute top-1/2 transform -translate-y-1/2 rtl:right-3 ltr:left-3',
-    suffixIcon:
-      'absolute top-1/2 transform -translate-y-1/2 rtl:left-3 ltr:right-3',
+    message: 'text-xs',
   },
   text: defaultTextInput,
   email: defaultTextInput,
@@ -31,7 +27,7 @@ const classes: FormThemeClasses = {
   password: defaultTextInput,
   checkbox: {
     wrapper: 'inline-flex items-center cursor-pointer',
-    inner: 'ltr:mr-2 rtl:ml-2 flex',
+    inner: 'flex',
     input:
       'appearance-none focus:outline-none focus:ring-0 focus:ring-offset-0',
     decorator:
@@ -40,7 +36,7 @@ const classes: FormThemeClasses = {
   },
   radio: {
     wrapper: 'inline-flex items-center cursor-pointer',
-    inner: 'ltr:mr-2 rtl:ml-2 flex',
+    inner: 'flex',
     input:
       'appearance-none focus:outline-none focus:ring-0 focus:ring-offset-0',
     decorator:

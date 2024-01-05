@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import CommonSectionMenu from '#mobile/components/CommonSectionMenu/CommonSectionMenu.vue'
@@ -89,7 +89,7 @@ const addToFavorites = (id: string) => {
 <template>
   <div class="mx-4 mt-6">
     <div v-if="overviewsLoading" class="flex items-center justify-center">
-      <CommonIcon name="mobile-loading" animation="spin" />
+      <CommonIcon name="loading" animation="spin" />
     </div>
 
     <CommonSectionMenu

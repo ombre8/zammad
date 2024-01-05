@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 module Gql::Concerns::HandlesAuthorization
   extend ActiveSupport::Concern
@@ -24,13 +24,13 @@ module Gql::Concerns::HandlesAuthorization
     #
 
     # This method is used by GraphQL to perform authorization on the various objects.
-    def self.authorized?(*args)
+    def self.authorized?(*)
       # ctx = args[-1] # This may be called with 2 or 3 params, context is last.
 
-      before_authorize(*args)
+      before_authorize(*)
 
       # Authorize
-      authorize(*args)
+      authorize(*)
     rescue Pundit::NotAuthorizedError # Map to 'Forbidden'
       raise Exceptions::Forbidden, "Access forbidden by #{name}"
     end

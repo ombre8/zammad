@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import { computed, type HTMLAttributes } from 'vue'
@@ -70,7 +70,7 @@ const iconProps = computed<IconProps | null>(() => {
         <slot name="right">{{ information && i18n.t(`${information}`) }}</slot>
         <CommonIcon
           class="text-white ltr:-mr-2 ltr:ml-2 rtl:-ml-2 rtl:mr-2"
-          :name="`mobile-chevron-${
+          :name="`chevron-${
             locale.localeData?.dir === 'rtl' ? 'left' : 'right'
           }`"
           size="base"

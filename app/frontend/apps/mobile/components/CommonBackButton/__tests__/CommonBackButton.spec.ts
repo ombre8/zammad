@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { i18n } from '#shared/i18n.ts'
 import { renderComponent } from '#tests/support/components/index.ts'
@@ -49,7 +49,7 @@ describe('rendering common back button', () => {
     })
 
     expect(view.getByRole('button', { name: 'Go home' })).toBeInTheDocument()
-    expect(view.getByIconName('mobile-home')).toBeInTheDocument()
+    expect(view.getByIconName('home')).toBeInTheDocument()
 
     await view.rerender({
       label: 'Back',
@@ -69,7 +69,7 @@ describe('rendering common back button', () => {
     })
 
     expect(view.getByRole('button', { name: 'Go home' })).toBeInTheDocument()
-    expect(view.getByIconName('mobile-home')).toBeInTheDocument()
+    expect(view.getByIconName('home')).toBeInTheDocument()
 
     await view.rerender({
       label: 'Back',
@@ -92,7 +92,7 @@ describe('rendering common back button', () => {
     })
 
     expect(view.getByRole('button', { name: 'Go back' })).toBeInTheDocument()
-    expect(view.getByIconName('mobile-chevron-left')).toBeInTheDocument()
+    expect(view.getByIconName('chevron-left')).toBeInTheDocument()
 
     await view.rerender({
       label: 'Back',
@@ -114,7 +114,7 @@ describe('rendering common back button', () => {
       },
     })
 
-    expect(view.getByIconName('mobile-chevron-left')).toBeInTheDocument()
+    expect(view.getByIconName('chevron-left')).toBeInTheDocument()
 
     const locale = useLocaleStore()
     locale.localeData = {
@@ -122,7 +122,7 @@ describe('rendering common back button', () => {
     } as any
 
     await expect(
-      view.findByIconName('mobile-chevron-right'),
+      view.findByIconName('chevron-right'),
     ).resolves.toBeInTheDocument()
   })
 })

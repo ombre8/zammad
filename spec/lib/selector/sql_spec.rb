@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 require 'rails_helper'
 
@@ -352,6 +352,25 @@ RSpec.describe Selector::Sql do
 
           include_examples 'finds the ticket'
         end
+
+        context 'with empty-looking values in DB' do
+          let(:value) { 'Some' }
+          let(:name)  { 'ticket.note' }
+
+          before { ticket.update! note: database_value }
+
+          context 'when value is empty string' do
+            let(:database_value) { '' }
+
+            include_examples 'finds the ticket'
+          end
+
+          context 'when value is NULL' do
+            let(:database_value) { nil }
+
+            include_examples 'finds the ticket'
+          end
+        end
       end
 
       describe "operator 'is'" do
@@ -692,6 +711,104 @@ RSpec.describe Selector::Sql do
         end
       end
 
+    end
+
+    describe 'complex conditions' do
+      context "when 'contains not' operator is after negative operator" do
+        let(:condition) do
+          { operator: 'AND', conditions: [
+            {
+              name:     'ticket.title',
+              operator: 'is not',
+              value:    'title',
+            }, {
+              name:     'ticket.note',
+              operator: 'contains not',
+              value:    'some',
+            },
+          ] }
+        end
+
+        let(:additional_ticket_attributes) { { title: 'title' } }
+
+        before do
+          ticket
+        end
+
+        include_examples 'does not find the ticket'
+      end
+
+      context "when 'contains not' operator is before negative operator" do
+        let(:condition) do
+          { operator: 'AND', conditions: [
+            {
+              name:     'ticket.note',
+              operator: 'contains not',
+              value:    'some',
+            }, {
+              name:     'ticket.title',
+              operator: 'is not',
+              value:    'title',
+            }
+          ] }
+        end
+
+        let(:additional_ticket_attributes) { { title: 'title' } }
+
+        before do
+          ticket
+        end
+
+        include_examples 'does not find the ticket'
+      end
+
+      context "when 'contains not' operator on a related table is after negative operator" do
+        let(:condition) do
+          { operator: 'AND', conditions: [
+            {
+              name:     'ticket.title',
+              operator: 'is not',
+              value:    'title',
+            }, {
+              name:     'customer.email',
+              operator: 'contains not',
+              value:    'some',
+            },
+          ] }
+        end
+
+        let(:additional_ticket_attributes) { { title: 'title' } }
+
+        before do
+          ticket
+        end
+
+        include_examples 'does not find the ticket'
+      end
+
+      context "when 'contains not' operator on a related table is before negative operator" do
+        let(:condition) do
+          { operator: 'AND', conditions: [
+            {
+              name:     'customer.email',
+              operator: 'contains not',
+              value:    'some',
+            }, {
+              name:     'ticket.title',
+              operator: 'is not',
+              value:    'title',
+            }
+          ] }
+        end
+
+        let(:additional_ticket_attributes) { { title: 'title' } }
+
+        before do
+          ticket
+        end
+
+        include_examples 'does not find the ticket'
+      end
     end
 
     describe 'external data source field', db_adapter: :postgresql, db_strategy: :reset do

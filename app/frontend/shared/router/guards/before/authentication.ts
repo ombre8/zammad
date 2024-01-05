@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { watch } from 'vue'
 import type { WatchStopHandle } from 'vue'
@@ -27,7 +27,7 @@ const checkAuthenticated = (
     } else {
       next({ path: '/login' })
     }
-  } else if (to.name === 'Login' && authenticated) {
+  } else if (to.meta.redirectToDefaultRoute && authenticated) {
     // Use the default route here.
     log.debug(
       `Route guard for '${to.path}': authentication - forbidden - authenticated.`,

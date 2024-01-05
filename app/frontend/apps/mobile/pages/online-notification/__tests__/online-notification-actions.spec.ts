@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { visitView } from '#tests/support/components/visitView.ts'
 import {
@@ -169,7 +169,7 @@ describe('selecting a online notification', () => {
       },
     })
 
-    await view.events.click(view.getAllByIconName('mobile-delete')[0])
+    await view.events.click(view.getAllByIconName('delete')[0])
 
     notificationItems = view.getAllByText('Ticket Title', {
       exact: false,

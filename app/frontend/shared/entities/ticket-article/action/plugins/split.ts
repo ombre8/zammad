@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import type { TicketArticleActionPlugin, TicketArticleAction } from './types.ts'
 
@@ -11,7 +11,7 @@ const actionPlugin: TicketArticleActionPlugin = {
       apps: ['mobile'],
       label: __('Split'),
       name: 'split',
-      icon: { mobile: 'mobile-split', desktop: 'desktop-split' },
+      icon: 'split',
       view: {
         agent: ['change'],
       },

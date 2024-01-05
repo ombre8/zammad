@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { nextTick } from 'vue'
 import {
@@ -132,6 +132,6 @@ describe('CommonNotifications.vue', () => {
       type: NotificationTypes.Warn,
     })
 
-    expect(wrapper.getByIconName('mobile-info')).toBeInTheDocument()
+    expect(wrapper.getByIconName('info')).toBeInTheDocument()
   })
 })

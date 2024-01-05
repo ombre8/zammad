@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 module Store::Provider::S3::Config
   class << self
@@ -17,6 +17,8 @@ module Store::Provider::S3::Config
 
     def apply
       return true if Aws.config.present?
+
+      Certificate::ApplySSLCertificates.ensure_fresh_ssl_context
 
       begin
         config = settings.deep_dup

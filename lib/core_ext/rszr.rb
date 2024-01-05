@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 module Rszr
   # https://github.com/zammad/zammad/issues/4347
@@ -19,6 +19,6 @@ module Rszr
 
     sample_image.height != 25
   rescue Rszr::LoadError
-    true  # Platform with outdated imlib2, handle gracefully.
+    true # Platform with outdated imlib2, handle gracefully.
   end
 end

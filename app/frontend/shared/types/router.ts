@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import type { App } from 'vue'
 import type { Router, RouteRecordRaw, RouteLocationRaw } from 'vue-router'
@@ -15,6 +15,7 @@ export interface RouteRecordMeta {
   title?: string
   requiresAuth: boolean
   requiredPermission: Maybe<RequiredPermission>
+  redirectToDefaultRoute?: boolean
   hasBottomNavigation?: boolean
   customBottomNavigation?: boolean
   hasHeader?: boolean

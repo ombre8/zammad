@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 class Issue4322SessionTimeoutStringify < ActiveRecord::Migration[6.1]
   def up
@@ -26,6 +26,6 @@ class Issue4322SessionTimeoutStringify < ActiveRecord::Migration[6.1]
       hash['value'][key] = hash['value'][key].to_s
     end
 
-    object.send("#{attr}=", hash)
+    object.send(:"#{attr}=", hash)
   end
 end

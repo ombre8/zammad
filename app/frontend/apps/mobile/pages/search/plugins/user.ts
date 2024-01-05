@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import UserItem from '#mobile/components/User/UserItem.vue'
 import type { SearchPlugin } from './index.ts'
@@ -11,6 +11,6 @@ export default <SearchPlugin>{
   order: 200,
   link: '/users/#{internalId}',
   permissions: ['ticket.agent'],
-  icon: { name: 'mobile-person', size: 'base' },
+  icon: { name: 'person', size: 'base' },
   iconBg: 'bg-pink',
 }

@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 require 'rails_helper'
 
@@ -22,7 +22,7 @@ RSpec.describe 'Mobile > App Update Check', app: :mobile, type: :system do
 
     it 'shows app rebuild dialog' do
       # Append a newline to the manifest file to trigger a reload notification.
-      Rails.public_path.join('assets/frontend/vite/manifest.json').open('a') do |file|
+      Rails.public_path.join('assets/frontend/vite/.vite/manifest.json').open('a') do |file|
         file.write("\n")
       end
 

@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 <script setup lang="ts">
 import { markRaw, defineAsyncComponent, nextTick } from 'vue'
 import type { ObjectLike } from '#shared/types/utils.ts'
@@ -74,7 +74,7 @@ Object.assign(props.context, {
     return buildEntityOption(belongsToObject)
   },
 
-  actionIcon: 'mobile-new-customer',
+  actionIcon: 'new-customer',
   actionLabel: __('Create new customer'),
 
   gqlQuery: AutocompleteSearchUserDocument,

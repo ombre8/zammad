@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 require 'rails_helper'
 
@@ -22,7 +22,7 @@ RSpec.describe ChecksKbClientNotificationJob, performs_jobs: true, type: :job do
 
     shared_examples 'message pushed to given users' do |prefix, **args|
       context "when answer is #{prefix}" do
-        let(:answer) { send("#{prefix}_answer") }
+        let(:answer) { send(:"#{prefix}_answer") }
 
         args.each do |key, value|
           it "#{key} #{value ? 'is' : 'not'} notified" do

@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { computed } from 'vue'
 import { useApplicationStore } from '#shared/stores/application.ts'
@@ -12,19 +12,19 @@ export const useTicketCreateArticleType = (
 
   const ticketCreateArticleType = {
     [TicketCreateArticleType.PhoneIn]: {
-      icon: 'mobile-phone-in',
+      icon: 'phone-in',
       label: __('Received Call'),
       sender: 'Customer',
       type: 'phone',
     },
     [TicketCreateArticleType.PhoneOut]: {
-      icon: 'mobile-phone-out',
+      icon: 'phone-out',
       label: __('Outbound Call'),
       sender: 'Agent',
       type: 'phone',
     },
     [TicketCreateArticleType.EmailOut]: {
-      icon: 'mobile-mail-out',
+      icon: 'mail-out',
       label: __('Send Email'),
       sender: 'Agent',
       type: 'email',

@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import type { Scalars } from '#shared/graphql/types.ts'
 
@@ -54,7 +54,9 @@ export interface ObjectWithId {
 }
 
 export declare type DeepPartial<T> = {
-  [K in keyof T]?: DeepPartial<T[K]>
+  [K in keyof T]?: T[K] extends object | null | undefined
+    ? DeepPartial<T[K]> | undefined | null
+    : T[K] | null
 }
 
 export declare type DeepRequired<T> = {

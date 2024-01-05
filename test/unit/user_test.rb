@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 require 'test_helper'
 
@@ -466,9 +466,6 @@ class UserTest < ActiveSupport::TestCase
       admin2.email = email1
       admin2.save!
     end
-
-    admin1.email = admin1.email
-    admin1.save!
 
     admin2.destroy!
     admin1.destroy!

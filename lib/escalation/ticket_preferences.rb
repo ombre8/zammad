@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 class Escalation
   class TicketPreferences
@@ -46,7 +46,7 @@ class Escalation
     end
 
     def property_changes?(ticket)
-      %i[first_response_at last_update_at close_at].any? { |elem| send("#{elem}_changed?", ticket) }
+      %i[first_response_at last_update_at close_at].any? { |elem| send(:"#{elem}_changed?", ticket) }
     end
 
     def any_changes?(ticket, sla, escalation_disabled)

@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 /* eslint-disable vue/no-v-html */
@@ -36,7 +36,7 @@ export default {
   >
     <CommonIcon
       :label="__('Loading content')"
-      name="mobile-loading"
+      name="loading"
       animation="spin"
     />
   </div>
@@ -45,7 +45,7 @@ export default {
     v-bind="$attrs"
     class="flex items-center justify-center gap-2 text-base text-red-bright"
   >
-    <CommonIcon name="mobile-close-small" />
+    <CommonIcon name="close-small" />
     <span v-html="markup($t(error))" />
   </div>
   <slot v-else />

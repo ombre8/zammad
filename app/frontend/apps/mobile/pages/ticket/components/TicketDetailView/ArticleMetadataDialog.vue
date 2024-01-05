@@ -1,4 +1,4 @@
-<!-- Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/ -->
+<!-- Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/ -->
 
 <script setup lang="ts">
 import { getArticleChannelIcon } from '#shared/entities/ticket-article/composables/getArticleChannelIcon.ts'
@@ -126,8 +126,8 @@ const hasSecurityAttribute = computed(
               size="tiny"
               :name="
                 article.securityState?.encryptionSuccess
-                  ? 'mobile-lock'
-                  : 'mobile-encryption-error'
+                  ? 'lock'
+                  : 'encryption-error'
               "
             />
             {{
@@ -147,9 +147,7 @@ const hasSecurityAttribute = computed(
               class="mb-1 inline"
               size="tiny"
               :name="
-                article.securityState?.signingSuccess
-                  ? 'mobile-signed'
-                  : 'mobile-not-signed'
+                article.securityState?.signingSuccess ? 'signed' : 'not-signed'
               "
             />
             {{

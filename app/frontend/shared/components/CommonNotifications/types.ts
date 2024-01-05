@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import type { SetOptional } from 'type-fest'
 
@@ -8,6 +8,13 @@ export enum NotificationTypes {
   Error = 'error',
   Info = 'info',
 }
+
+export type NotificationClass =
+  | NotificationTypes
+  | 'base'
+  | 'baseContainer'
+  | 'message'
+export type NotificationClassMap = Record<NotificationClass, string>
 
 export interface Notification {
   id: string

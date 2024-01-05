@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+# Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 class Translation < ApplicationModel
   include Translation::SynchronizesFromPo
@@ -97,7 +97,7 @@ translate strings in Ruby context, e. g. for notifications
   def self.translate(locale, string, *args)
     translated = find_source(locale, string)&.target || string
 
-    translated = translated % args if args.any?
+    translated %= args if args.any?
 
     translated
   end

@@ -1,4 +1,4 @@
-// Copyright (C) 2012-2023 Zammad Foundation, https://zammad-foundation.org/
+// Copyright (C) 2012-2024 Zammad Foundation, https://zammad-foundation.org/
 
 import { getAllByTestId, getByTestId, within } from '@testing-library/vue'
 import { visitView } from '#tests/support/components/visitView.ts'
@@ -69,7 +69,7 @@ describe('playing with overviews', () => {
 
     const view = await visitView('/favorite/ticker-overviews/edit')
 
-    const buttonsRemove = await view.findAllByIconName('mobile-minus')
+    const buttonsRemove = await view.findAllByIconName('minus')
 
     expect(buttonsRemove).toHaveLength(3)
 
@@ -77,7 +77,7 @@ describe('playing with overviews', () => {
 
     await view.events.click(overviewOneButton)
 
-    expect(view.getAllByIconName('mobile-minus')).toHaveLength(2)
+    expect(view.getAllByIconName('minus')).toHaveLength(2)
 
     const overviewOneInExcluded = getByTestId(
       view.getByTestId('excludedOverviews'),
@@ -86,7 +86,7 @@ describe('playing with overviews', () => {
 
     expect(overviewOneInExcluded).toHaveTextContent('Overview 1')
 
-    const buttonAdd = getByIconName(overviewOneInExcluded, 'mobile-plus')
+    const buttonAdd = getByIconName(overviewOneInExcluded, 'plus')
 
     await view.events.click(buttonAdd)
 
@@ -121,7 +121,7 @@ describe('playing with overviews', () => {
     saveOverviews(['1'])
     const view = await visitView('/favorite/ticker-overviews/edit')
 
-    const buttonRemove = await view.findByIconName('mobile-minus')
+    const buttonRemove = await view.findByIconName('minus')
 
     await view.events.click(buttonRemove)
     await view.events.click(view.getByText('Save'))
