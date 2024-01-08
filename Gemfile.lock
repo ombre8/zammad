@@ -347,12 +347,12 @@ GEM
     mysql2 (0.5.5)
     naught (1.1.0)
     nestful (1.1.4)
-    net-ftp (0.3.3)
+    net-ftp (0.3.4)
       net-protocol
       time
-    net-http (0.4.0)
+    net-http (0.4.1)
       uri
-    net-imap (0.4.9)
+    net-imap (0.4.9.1)
       date
       net-protocol
     net-ldap (0.19.0)

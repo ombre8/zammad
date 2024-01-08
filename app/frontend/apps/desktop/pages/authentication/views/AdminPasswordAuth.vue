@@ -10,7 +10,7 @@ import { useForm } from '#shared/components/Form/useForm.ts'
 import { MutationHandler } from '#shared/server/apollo/handler/index.ts'
 import CommonAlert from '#shared/components/CommonAlert/CommonAlert.vue'
 import { useApplicationStore } from '#shared/stores/application.ts'
-import { useThirdPartyAuthentication } from '#shared/composables/login/useThirdPartyAuthentication.ts'
+import { useThirdPartyAuthentication } from '#shared/composables/authentication/useThirdPartyAuthentication.ts'
 
 import LayoutPublicPage from '#desktop/components/layout/LayoutPublicPage.vue'
 import CommonButton from '#desktop/components/CommonButton/CommonButton.vue'
@@ -78,7 +78,7 @@ const send = (data: AdminPasswordAuthRequestData) => {
     })
     .catch(() => {
       adminPasswordAuthError.value = __(
-        'Unable to send admin password auth email.',
+        'The admin password auth email could not be sent.',
       )
     })
 }
